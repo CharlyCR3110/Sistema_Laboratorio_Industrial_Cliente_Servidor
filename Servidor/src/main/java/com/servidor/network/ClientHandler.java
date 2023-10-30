@@ -24,7 +24,7 @@ public class ClientHandler implements Runnable{
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream in = new ObjectInputStream(socket.getInputStream())
 		) {
-			while (true) {
+			while (in.available() > 0) {	// si hay datos para leer
 				// Leer el comando y el objeto
 				String commandName = (String) in.readObject();
 				Object datos = in.readObject();
@@ -76,7 +76,7 @@ public class ClientHandler implements Runnable{
 				out.flush();
 			}
 		}catch (EOFException e) {
-			System.out.println("Cliente desconectado");// DEBUG
+			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
 			e.printStackTrace();
 		} catch (IOException | ClassNotFoundException e) {
 			System.out.println("Error en el clienteHandler: " + e.getMessage());	// DEBUG
@@ -84,7 +84,9 @@ public class ClientHandler implements Runnable{
 		}
 		finally {
 			try {
+				// Cerrar los flujos y el socket
 				socket.close();
+				System.out.println("SOCKET CERRADO");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
