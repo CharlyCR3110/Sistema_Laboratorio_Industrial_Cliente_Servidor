@@ -45,11 +45,11 @@ public class TipoInstrumentoDao {
 	public int guardar(TipoInstrumento tipoInstrumento) {
 		// comprueba si ya existe un TipoInstrumento con el mismo codigo
 		if (tieneDuplicados(tipoInstrumento)) {
-			System.err.println("Ya existe un TipoInstrumento con el mismo codigo");	//debug
+			System.err.println("DAO: Ya existe un TipoInstrumento con el mismo codigo");	//debug
 			return -1;
 		}
 
-		System.out.println("Guardando TipoInstrumento" + tipoInstrumento.toString());	//debug
+		System.out.println("DAO: Guardando TipoInstrumento" + tipoInstrumento.toString());	//debug
 
 		// Consulta SQL para insertar un TipoInstrumento
 		String query = "INSERT INTO tipo_instrumentos (codigo, nombre, unidad) VALUES (?, ?, ?)";
@@ -63,22 +63,19 @@ public class TipoInstrumentoDao {
 			// Ejecutar la consulta y guardar el numero de filas afectadas
 			int rowsAffected = statement.executeUpdate();
 
-			// Obtener el id generado
+			System.out.println("DAO: Se ejecuto la consulta");	//debug
 			if (rowsAffected == 1) {
-				try (ResultSet resultSet = statement.getGeneratedKeys()) {
-					if (resultSet.next()) {
-						return resultSet.getInt(1);
-					}
-				}
+				System.out.println("DAO: Se afecto una fila");	//debug
+				return 1;	// Se guardo el TipoInstrumento
 			} else {
-				System.err.println("No se guardo el TipoInstrumento");	//debug
+				System.err.println("DAO: No se guardo el TipoInstrumento. Motivo: No se afecto ninguna fila");	//debug
+				throw new RuntimeException("DAO: No se guardo el TipoInstrumento. Motivo: No se afecto ninguna fila");
 			}
 		} catch (SQLException e) {
+			System.out.println("DAO: Error al guardar el TipoInstrumento: Motivo: " + e.getMessage());	//debug
 			// Lanzar una excepción en caso de que ocurra un error
 			throw new RuntimeException(e);
 		}
-
-		return -1;	// No se guardo el TipoInstrumento
 	}
 
 	public List<TipoInstrumento> listar() {
