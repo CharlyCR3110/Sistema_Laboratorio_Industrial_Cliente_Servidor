@@ -24,7 +24,7 @@ public class ClientHandler implements Runnable{
 				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream in = new ObjectInputStream(socket.getInputStream())
 		) {
-			while (in.available() > 0) {	// si hay datos para leer
+			while (true) {	// si hay datos para leer
 				// Leer el comando y el objeto
 				String commandName = (String) in.readObject();
 				Object datos = in.readObject();
