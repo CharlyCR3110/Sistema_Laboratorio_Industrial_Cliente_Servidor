@@ -31,13 +31,13 @@ public class ClientHandler implements Runnable{
 
 				// obtener el comando
 				Command<?> command = commandManager.getCommand(commandName);
-				System.out.println("Comando obtenido: ");
 				if (command == null) {
 					out.writeObject(-1);
 					out.writeObject("Comando no encontrado");
 					out.flush();
 					throw new RuntimeException("Comando no encontrado");
 				}
+				System.out.println("Comando obtenido: " + commandName);
 
 				// Configura los datos del comando con los datos del cliente
 				if (datos == null) {
@@ -77,7 +77,6 @@ public class ClientHandler implements Runnable{
 			}
 		}catch (EOFException e) {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
-			e.printStackTrace();
 		} catch (IOException | ClassNotFoundException e) {
 			System.out.println("Error en el clienteHandler: " + e.getMessage());	// DEBUG
 			e.printStackTrace();
@@ -88,6 +87,7 @@ public class ClientHandler implements Runnable{
 				socket.close();
 				System.out.println("SOCKET CERRADO");
 			} catch (IOException e) {
+				System.out.println("Error al cerrar el socket: " + e.getMessage());	// DEBUG
 				e.printStackTrace();
 			}
 		}
