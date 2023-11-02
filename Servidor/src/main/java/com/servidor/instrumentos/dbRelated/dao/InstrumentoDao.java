@@ -166,9 +166,13 @@ public class InstrumentoDao {
 				}
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			// Lanzar una excepción en caso de que ocurra un error
+			if (descripcion == null || descripcion.isEmpty()) {
+				throw new RuntimeException("Error al listar los instrumentos: " + e.getMessage());
+			} else {
+				throw new RuntimeException("Error al listar los instrumentos con la descripción " + descripcion + ": " + e.getMessage());
+			}
 		}
-
 		// devolver la lista
 		return r;
 	}
