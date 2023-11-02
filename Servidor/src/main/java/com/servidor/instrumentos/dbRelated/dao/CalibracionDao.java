@@ -50,7 +50,7 @@ public class CalibracionDao {
 	}
 
 	public int guardar(Calibracion calibracion) {
-		int r = 0;
+		int rowsAffected;
 		// Consulta SQL para insertar un registro en la tabla de calibraciones
 		String query = "INSERT INTO calibraciones (numero, fecha, numero_de_mediciones, instrumento_serie) VALUES (?, ?, ?, ?)";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -61,7 +61,7 @@ public class CalibracionDao {
 			statement.setString(4, calibracion.getInstrumento().getSerie());
 
 			// Ejecutar la consulta SQL y obtener el resultado
-			r = statement.executeUpdate();
+			rowsAffected  = statement.executeUpdate();
 
 			// Guardar las mediciones
 			for (Medicion medicion : calibracion.getMediciones()) {
@@ -69,14 +69,14 @@ public class CalibracionDao {
 					medicionDaoController.guardar(medicion, calibracion.getNumero());
 				} catch (RuntimeException e) {
 					// Lanzar una excepción en caso de que ocurra un error
-					throw new RuntimeException(e);
+					throw new RuntimeException("Error al guardar las mediciones de la calibración: " + e.getMessage(), e);
 				}
 			}
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al guardar la calibración: " + e.getMessage(), e);
 		}
-		return r;
+		return rowsAffected;
 	}
 
 	public List<Calibracion> listar(String instrumento_serie) {	// lista de calibraciones de un instrumento
