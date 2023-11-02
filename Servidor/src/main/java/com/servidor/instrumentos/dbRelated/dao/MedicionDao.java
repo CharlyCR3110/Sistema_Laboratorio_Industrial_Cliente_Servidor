@@ -4,6 +4,7 @@ import com.compartidos.elementosCompartidos.Medicion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +33,17 @@ public class MedicionDao {
 		}
 	}
 
-	public List<Medicion> listar(String calibracion_numero) {	// lista de mediciones de una calibracion
-		List<Medicion> r = new ArrayList<>();
-		// Consulta SQL para obtener las mediciones de una calibracion
+	public List<Medicion> listar(String calibracion_numero) {
+		List<Medicion> mediciones = new ArrayList<>();
+
+		// Consulta SQL para obtener las mediciones de una calibración
 		String query = "SELECT * FROM mediciones WHERE calibracion_numero = ?";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			// Setear los valores de la consulta SQL
+			// Setear el número de la calibración en la consulta SQL
 			statement.setInt(1, Integer.parseInt(calibracion_numero));
 
 			// Ejecutar la consulta SQL y obtener el resultado
-			try (var resultSet = statement.executeQuery()) {
+			try (ResultSet resultSet = statement.executeQuery()) {
 				// Recorrer el resultado obtenido
 				while (resultSet.next()) {
 					// Crear una nueva instancia de Medicion
@@ -53,15 +55,15 @@ public class MedicionDao {
 					medicion.setMedicion(resultSet.getInt("medicion"));
 
 					// Agregar la medicion a la lista de mediciones
-					r.add(medicion);
+					mediciones.add(medicion);
 				}
 			}
 		} catch (SQLException e) {
-			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			// Lanzar una excepción en caso de que ocurra un error al listar las mediciones
+			throw new RuntimeException("Error al listar las mediciones de la calibración: " + e.getMessage(), e);
 		}
-
-		return r;
+		// Retornar la lista de mediciones
+		return mediciones;
 	}
 
 	public int modificar (Medicion medicion) {
