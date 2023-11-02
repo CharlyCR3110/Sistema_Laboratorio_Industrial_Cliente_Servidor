@@ -16,6 +16,7 @@ public class InstrumentoDao {
 	public InstrumentoDao(Connection connection) {
 		this.connection = connection;
 	}
+	
 	public boolean tieneDuplicados(Instrumento instrumento) {
 		boolean r = false;
 		// Consulta SQL para verificar si existe un registro con el mismo codigo
@@ -39,7 +40,7 @@ public class InstrumentoDao {
 			}
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al verificar duplicados: " + e.getMessage());
 		}
 
 		return r;
