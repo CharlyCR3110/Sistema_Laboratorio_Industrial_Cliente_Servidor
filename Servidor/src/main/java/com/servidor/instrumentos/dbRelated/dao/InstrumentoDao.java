@@ -16,7 +16,7 @@ public class InstrumentoDao {
 	public InstrumentoDao(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	public boolean tieneDuplicados(Instrumento instrumento) {
 		boolean r = false;
 		// Consulta SQL para verificar si existe un registro con el mismo codigo
@@ -48,11 +48,9 @@ public class InstrumentoDao {
 
 	public int guardar(Instrumento instrumento) {
 		if (tieneDuplicados(instrumento) ) {
-			System.err.println("Ya existe un instrumento con el mismo codigo");	//debug
+//			throw new IllegalArgumentException("Ya existe un instrumento con el mismo código");	// puede ser pa?
 			return -1;
 		}
-
-		System.out.println("Guardando instrumento" + instrumento.toString());	//debug
 
 		// Consulta SQL para insertar un instrumento
 		String query = "INSERT INTO instrumentos (serie, descripcion, tipo, minimo, maximo, tolerancia) VALUES (?, ?, ?, ?, ?, ?)";
@@ -68,16 +66,13 @@ public class InstrumentoDao {
 			// Ejecutar la consulta SQL
 			int rowsAffected = statement.executeUpdate();
 
-			// DEBUG (CAMBIAR POR UN RETURN DIRECTO)
 			if (rowsAffected == 0) {
-				System.out.println("No se guardo el instrumento");
-				throw new SQLException("No se guardo el instrumento");
+				throw new SQLException("No se guardó el instrumento en la base de datos");
 			}
-
 			return rowsAffected;
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al guardar el instrumento: " + e.getMessage(), e);
 		}
 	}
 
