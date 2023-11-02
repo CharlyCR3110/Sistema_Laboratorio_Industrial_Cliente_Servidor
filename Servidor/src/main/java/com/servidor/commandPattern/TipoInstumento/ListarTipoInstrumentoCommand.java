@@ -18,16 +18,8 @@ public class ListarTipoInstrumentoCommand implements Command<TipoInstrumento> {
 
 	@Override
 	public int execute() {
-		try {
-			if (tipoInstrumento != null && tipoInstrumento.getNombre() != null && !tipoInstrumento.getNombre().isEmpty()) {
-				tipoInstrumentoListReturn = tipoInstrumentoDaoController.listarPorNombre(tipoInstrumento.getNombre());
-			} else {
-				tipoInstrumentoListReturn = tipoInstrumentoDaoController.listar();
-			}
-			return 1;
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL LISTAR TIPO INSTRUMENTO");
-		}
+		this.tipoInstrumentoListReturn = tipoInstrumentoDaoController.listar(tipoInstrumento.getNombre());
+		return 1;
 	}
 
 	@Override
