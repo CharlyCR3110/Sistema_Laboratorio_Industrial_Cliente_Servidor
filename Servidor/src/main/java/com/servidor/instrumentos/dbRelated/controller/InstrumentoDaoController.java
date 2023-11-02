@@ -18,14 +18,11 @@ public class InstrumentoDaoController {
 	public int guardar(Instrumento instrumento) {
 		return instrumentoDao.guardar(instrumento);
 	}
-	public List<Instrumento> listar() {
-		return instrumentoDao.listar();
+	public List<Instrumento> listar(String descripcion) {
+		return instrumentoDao.listar(descripcion);
 	}
 	public int eliminar(String serie) {
 		return instrumentoDao.eliminar(serie);
-	}
-	public List<Instrumento> listarPorDescripcion(String descripcion) {
-		return instrumentoDao.listarPorDescripcion(descripcion);
 	}
 	public int modificar(Instrumento instrumento) {
 		return instrumentoDao.modificar(instrumento);
