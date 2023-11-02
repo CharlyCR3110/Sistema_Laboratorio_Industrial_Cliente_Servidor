@@ -23,7 +23,7 @@ public class ConnectionFactory {
 
 			String URL_conexion = "jdbc:mysql://" + server + ":" + port + "/" + database + "?user=" + user
 					+ "&password=" + password + "&serverTimezone=UTC";
-			Class.forName(driver).newInstance();
+			Class.forName(driver).getDeclaredConstructor().newInstance();
 
 			var comboPooledDataSource = new ComboPooledDataSource();
 			comboPooledDataSource.setJdbcUrl(URL_conexion);
