@@ -2,6 +2,7 @@ package com.servidor.commandPattern;
 
 import com.servidor.commandPattern.TipoInstumento.*;
 import com.servidor.commandPattern.Instrumento.*;
+import com.servidor.commandPattern.Calibracion.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,12 @@ public class CommandManager {
 	private final static ModificarInstrumentoCommand modificarInstrumentoCommand = new ModificarInstrumentoCommand();
 	private final static ObtenerInstrumentoCommand obtenerInstrumentoCommand = new ObtenerInstrumentoCommand();
 
+	private final static GuardarCalibracionCommand guardarCalibracionCommand = new GuardarCalibracionCommand();
+	private final static EliminarCalibracionCommand eliminarCalibracionCommand = new EliminarCalibracionCommand();
+	private final static ListarCalibracionCommand listarCalibracionCommand = new ListarCalibracionCommand();
+	private final static ModificarCalibracionCommand modificarCalibracionCommand = new ModificarCalibracionCommand();
+	private final static ObtenerCalibracionCommand obtenerCalibracionCommand = new ObtenerCalibracionCommand();
+
 	// Mapa de comandos
 	private final Map<String, Command<?>> commandMap;
 
@@ -38,6 +45,12 @@ public class CommandManager {
 		commandMap.put("LISTAR_INSTRUMENTO", listarInstrumentoCommand);
 		commandMap.put("MODIFICAR_INSTRUMENTO", modificarInstrumentoCommand);
 		commandMap.put("OBTENER_INSTRUMENTO", obtenerInstrumentoCommand);
+
+		commandMap.put("GUARDAR_CALIBRACION", guardarCalibracionCommand);
+		commandMap.put("ELIMINAR_CALIBRACION", eliminarCalibracionCommand);
+		commandMap.put("LISTAR_CALIBRACION", listarCalibracionCommand);
+		commandMap.put("MODIFICAR_CALIBRACION", modificarCalibracionCommand);
+		commandMap.put("OBTENER_CALIBRACION", obtenerCalibracionCommand);
 
 		//DEBUG
 		System.out.println("CommandManager: initialized");
