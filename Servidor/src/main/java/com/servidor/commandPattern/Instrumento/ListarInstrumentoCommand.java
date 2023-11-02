@@ -20,16 +20,8 @@ public class ListarInstrumentoCommand implements Command<Instrumento> {
 
 	@Override
 	public int execute() {
-		try {
-			if (instrumento != null && instrumento.getDescripcion() != null && !instrumento.getDescripcion().isEmpty()) {
-				instrumentoListReturn = instrumentoDaoController.listarPorDescripcion(instrumento.getDescripcion());
-			} else {
-				instrumentoListReturn = instrumentoDaoController.listar();
-			}
-			return 1;
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL LISTAR INSTRUMENTO");
-		}
+		instrumentoListReturn = instrumentoDaoController.listar(instrumento.getDescripcion());
+		return 1;
 	}
 
 	@Override
