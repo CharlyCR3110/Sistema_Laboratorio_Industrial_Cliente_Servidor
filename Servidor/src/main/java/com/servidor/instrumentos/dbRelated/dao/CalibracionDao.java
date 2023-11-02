@@ -98,7 +98,7 @@ public class CalibracionDao {
 					calibracion.setNumero(resultSet.getString("numero"));
 					calibracion.setFecha(resultSet.getDate("fecha").toLocalDate());
 					calibracion.setNumeroDeMediciones(resultSet.getInt("numero_de_mediciones"));
-					
+
 					// obtener las mediciones de la calibracion
 					List<Medicion> mediciones = medicionDaoController.listar(calibracion.getNumero());
 					calibracion.setMediciones(mediciones);
@@ -121,7 +121,7 @@ public class CalibracionDao {
 	}
 
 	// por el DELETE CASCADE, no es necesario eliminar las mediciones de la calibracion
-	public int eliminar (String numero) {
+	public int eliminar(String numero) {
 		// Consulta SQL para eliminar un registro de la tabla de calibraciones
 		String query = "DELETE FROM calibraciones WHERE numero = ?";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -132,7 +132,7 @@ public class CalibracionDao {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al eliminar la calibración: " + e.getMessage());
 		}
 	}
 
