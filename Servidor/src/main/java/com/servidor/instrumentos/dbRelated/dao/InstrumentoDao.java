@@ -192,13 +192,13 @@ public class InstrumentoDao {
 
 			// DEBUG
 			if (rowsAffected == 0) {
-				System.out.println("No se modifico el instrumento");
+				throw new SQLException("No se modificó el instrumento en la base de datos");
 			}
 
 			// retornar el numero de filas afectadas
 			return rowsAffected;
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al modificar el instrumento: " + e.getMessage(), e);
 		}
 	}
 
