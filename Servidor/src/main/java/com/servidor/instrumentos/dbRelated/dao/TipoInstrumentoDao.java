@@ -175,12 +175,11 @@ public class TipoInstrumentoDao {
 		}
 	}
 
-	public TipoInstrumento obtener(TipoInstrumento e) {
-String query = "SELECT * FROM tipo_instrumentos WHERE codigo = ?";
+	public TipoInstrumento obtener(TipoInstrumento tipoInstrumento) {
+		String query = "SELECT * FROM tipo_instrumentos WHERE codigo = ?";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			// Setear los valores de la consulta SQL
-			statement.setString(1, e.getCodigo());
-
+			statement.setString(1, tipoInstrumento.getCodigo());
 			// Ejecutar la consulta SQL y obtener el resultado
 			try (ResultSet resultSet = statement.executeQuery()) {
 				// Si existe un registro con el mismo codigo, setear el resultado a true
@@ -192,9 +191,9 @@ String query = "SELECT * FROM tipo_instrumentos WHERE codigo = ?";
 					);
 				}
 			}
-		} catch (SQLException ex) {
+		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(ex);
+			throw new RuntimeException("Error al obtener el TipoInstrumento: " + e.getMessage());
 		}
 		return null;
 	}
