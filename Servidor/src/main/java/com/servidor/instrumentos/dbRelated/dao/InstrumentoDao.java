@@ -76,75 +76,24 @@ public class InstrumentoDao {
 		}
 	}
 
-	public List<Instrumento> listar() {
-		List<Instrumento> r = new ArrayList<>();
-
-		// Consulta SQL para obtener todos los instrumentos
-		String query = "SELECT * FROM instrumentos";
-
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			// Ejecutar la consulta SQL y obtener el resultado
-			try (ResultSet resultSet = statement.executeQuery()) {
-				// Recorrer el resultado y agregar cada registro a la lista
-				while (resultSet.next()) {
-					// Obtener los valores de cada columna
-					String serie = resultSet.getString("serie");
-					String descripcion = resultSet.getString("descripcion");
-					String tipo = resultSet.getString("tipo");
-					int minimo = resultSet.getInt("minimo");
-					int maximo = resultSet.getInt("maximo");
-					int tolerancia = resultSet.getInt("tolerancia");
-
-					// Crear un objeto de tipo instrumento con los valores de la consulta
-					Instrumento instrumento = new Instrumento(serie, descripcion, minimo, maximo, tolerancia, new TipoInstrumentoDao(connection).obtener(new TipoInstrumento(tipo, tipo, tipo)));	// Se crea un objeto de tipo TipoInstrumento con todos los valores iguales, porque realmente solo es necesario el codigo
-					// Agregar el objeto a la lista
-					r.add(instrumento);
-				}
-			}
-		} catch (SQLException e) {
-			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException("Error al listar los instrumentos: " + e.getMessage());
-		}
-
-		return r;
-	}
-
-	public int eliminar(String serie) {
-		String query = "DELETE FROM instrumentos WHERE serie = ?";
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			// Setear los valores de la consulta SQL
-			statement.setString(1, serie);
-
-			// Ejecutar la consulta SQL y obtener el resultado
-			int rowsAffected = statement.executeUpdate();
-
-			if (rowsAffected == 0) {
-				throw new SQLException("No se eliminó el instrumento de la base de datos");
-			}
-			return rowsAffected;
-		} catch (SQLException e) {
-			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException("Error al eliminar el instrumento: " + e.getMessage());
-		}
-	}
-
-	public List<Instrumento> listarPorDescripcion(String descripcion) {
+	public List<Instrumento> listar(String descripcion) {
 		List<Instrumento> r = new ArrayList<>();
 
 		// Query SQL para listar los instrumentos
 		String query = "SELECT * FROM instrumentos";
-		// Verificar si la descripcion no es nula o vacia, y si no lo está, modificar la consulta SQL
+
+		// Verificar si la descripción no es nula ni está vacía, y si no lo está, agregar un WHERE a la consulta SQL
 		if (descripcion != null && !descripcion.isEmpty()) {
 			query += " WHERE descripcion LIKE ?";
 		}
 
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			// settear la descripcion si no es nula o vacia
+			// setear la descripción si no es nula o vacía
 			if (descripcion != null && !descripcion.isEmpty()) {
 				statement.setString(1, "%" + descripcion + "%");
 			}
 
-			// Ejectuar la consulta SQL y obtener el resultado
+			// Ejecutar la consulta SQL y obtener el resultado
 			try (ResultSet resultSet = statement.executeQuery()) {
 				// Agregar cada registro a la lista
 				while (resultSet.next()) {
@@ -170,8 +119,28 @@ public class InstrumentoDao {
 				throw new RuntimeException("Error al listar los instrumentos con la descripción " + descripcion + ": " + e.getMessage());
 			}
 		}
-		// devolver la lista
+		// Devolver la lista
 		return r;
+	}
+
+
+	public int eliminar(String serie) {
+		String query = "DELETE FROM instrumentos WHERE serie = ?";
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			// Setear los valores de la consulta SQL
+			statement.setString(1, serie);
+
+			// Ejecutar la consulta SQL y obtener el resultado
+			int rowsAffected = statement.executeUpdate();
+
+			if (rowsAffected == 0) {
+				throw new SQLException("No se eliminó el instrumento de la base de datos");
+			}
+			return rowsAffected;
+		} catch (SQLException e) {
+			// Lanzar una excepción en caso de que ocurra un error
+			throw new RuntimeException("Error al eliminar el instrumento: " + e.getMessage());
+		}
 	}
 
 	public int modificar (Instrumento instrumento) {
