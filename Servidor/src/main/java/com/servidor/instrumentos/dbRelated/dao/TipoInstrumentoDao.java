@@ -146,9 +146,12 @@ public class TipoInstrumentoDao {
 			}
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			if (nombre == null || nombre.isEmpty()) {
+				throw new RuntimeException("Error al listar los TipoInstrumentos: " + e.getMessage());
+			} else {
+				throw new RuntimeException("Error al listar los TipoInstrumentos con nombre " + nombre + ": " + e.getMessage());
+			}
 		}
-
 		// Retornar la lista de tipos
 		return r;
 	}
