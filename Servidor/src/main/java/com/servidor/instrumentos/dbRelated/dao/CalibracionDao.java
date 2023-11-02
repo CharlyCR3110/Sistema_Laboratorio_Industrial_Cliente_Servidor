@@ -137,7 +137,7 @@ public class CalibracionDao {
 	}
 
 	public List<Calibracion> buscarPorNumero(String instrumentoSerie, String numero) {
-		List<Calibracion> r = new ArrayList<>();
+		List<Calibracion> calibraciones = new ArrayList<>();
 		// Consulta SQL para obtener las calibraciones de un instrumento con un numero especifico
 		String query = "SELECT * FROM calibraciones WHERE instrumento_serie = ? AND numero = ?";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -156,24 +156,25 @@ public class CalibracionDao {
 					calibracion.setNumero(resultSet.getString("numero"));
 					calibracion.setFecha(resultSet.getDate("fecha").toLocalDate());
 					calibracion.setNumeroDeMediciones(resultSet.getInt("numero_de_mediciones"));
+
 					// obtener las mediciones de la calibracion
 					List<Medicion> mediciones = medicionDaoController.listar(calibracion.getNumero());
 					calibracion.setMediciones(mediciones);
+
 					// obtener el instrumento de la calibracion
 					Instrumento instrumentoFilter = new Instrumento();
 					instrumentoFilter.setSerie(resultSet.getString("instrumento_serie"));
-
 					Instrumento instrumentoFinal = instrumentoDaoController.obtener(instrumentoFilter);
-
 					calibracion.setInstrumento(instrumentoFinal);
+					
 					// Agregar la calibracion a la lista de calibraciones
-					r.add(calibracion);
+					calibraciones.add(calibracion);
 				}
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al buscar las calibraciones por número: " + e.getMessage(), e);
 		}
-		return r;
+		return calibraciones;
 	}
 
 	public int modificar(Calibracion calibracion) {
