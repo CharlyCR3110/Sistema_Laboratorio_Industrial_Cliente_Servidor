@@ -93,7 +93,7 @@ public class TipoInstrumentoDao {
 			}
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al listar los TipoInstrumentos: " + e.getMessage());
 		}
 		return r;
 	}
