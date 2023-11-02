@@ -19,11 +19,7 @@ public class GuardarCalibracionCommand implements Command<Calibracion> {
 
 	@Override
 	public int execute() {
-		try {
-			return calibracionDaoController.guardar(calibracion);
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL GUARDAR CALIBRACION");
-		}
+		return calibracionDaoController.guardar(calibracion);
 	}
 
 	@Override

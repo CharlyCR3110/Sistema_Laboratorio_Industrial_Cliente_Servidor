@@ -18,11 +18,7 @@ public class EliminarCalibracionCommand implements Command<Calibracion>{
 
 	@Override
 	public int execute() {
-		try {
-			return calibracionDaoController.eliminar(calibracion.getNumero());
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL ELIMINAR CALIBRACION");
-		}
+		return calibracionDaoController.eliminar(calibracion.getNumero());
 	}
 
 	@Override

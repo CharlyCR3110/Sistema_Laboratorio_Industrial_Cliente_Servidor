@@ -19,11 +19,7 @@ public class EliminarTipoInstrumentoCommand implements Command<TipoInstrumento> 
 	}
 	@Override
 	public int execute() {
-		try {
-			return tipoInstrumentoDaoController.eliminar(tipoInstrumento.getCodigo());
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL ELIMINAR TIPO INSTRUMENTO");
-		}
+		return tipoInstrumentoDaoController.eliminar(tipoInstrumento.getCodigo());
 	}
 
 	@Override

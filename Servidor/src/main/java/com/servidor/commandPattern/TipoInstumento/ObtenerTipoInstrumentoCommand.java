@@ -19,12 +19,8 @@ public class ObtenerTipoInstrumentoCommand implements Command<TipoInstrumento> {
 
 	@Override
 	public int execute() {
-		try {
-			this.tipoInstrumentoReturn = tipoInstrumentoDaoController.obtener(tipoInstrumento);
-			return 1;
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL OBTENER TIPO INSTRUMENTO");
-		}
+		this.tipoInstrumentoReturn = tipoInstrumentoDaoController.obtener(tipoInstrumento);
+		return 1;
 	}
 
 	@Override

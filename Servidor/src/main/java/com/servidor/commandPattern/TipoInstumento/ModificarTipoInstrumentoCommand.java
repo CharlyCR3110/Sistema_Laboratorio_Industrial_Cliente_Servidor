@@ -16,11 +16,7 @@ public class ModificarTipoInstrumentoCommand implements Command<TipoInstrumento>
 	}
 	@Override
 	public int execute() {
-		try {
-			return tipoInstrumentoDaoController.modificar(tipoInstrumento);
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL MODIFICAR TIPO INSTRUMENTO");
-		}
+		return tipoInstrumentoDaoController.modificar(tipoInstrumento);
 	}
 
 	@Override

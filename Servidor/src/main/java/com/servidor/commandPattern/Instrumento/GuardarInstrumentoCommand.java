@@ -19,11 +19,7 @@ public class GuardarInstrumentoCommand implements Command<Instrumento> {
 
 	@Override
 	public int execute() {
-		try {
-			return instrumentoDaoController.guardar(instrumento);
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL GUARDAR INSTRUMENTO");
-		}
+		return instrumentoDaoController.guardar(instrumento);
 	}
 
 	@Override

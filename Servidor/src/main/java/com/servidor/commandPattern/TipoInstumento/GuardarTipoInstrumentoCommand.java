@@ -16,11 +16,7 @@ public class GuardarTipoInstrumentoCommand implements Command<TipoInstrumento> {
 	}
 	@Override
 	public int execute() {
-		try {
-			return tipoInstrumentoDaoController.guardar(tipoInstrumento);
-		} catch (RuntimeException e) {
-			throw new RuntimeException("ERROR AL GUARDAR TIPO INSTRUMENTO");
-		}
+		return tipoInstrumentoDaoController.guardar(tipoInstrumento);
 	}
 
 	@Override

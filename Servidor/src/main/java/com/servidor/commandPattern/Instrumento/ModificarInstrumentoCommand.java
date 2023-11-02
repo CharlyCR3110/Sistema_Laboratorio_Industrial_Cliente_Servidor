@@ -17,11 +17,7 @@ public class ModificarInstrumentoCommand implements Command<Instrumento> {
 
 	@Override
 	public int execute() {
-		try {
-			return instrumentoDaoController.modificar(instrumento);
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL ELIMINAR INSTRUMENTO");
-		}
+		return instrumentoDaoController.modificar(instrumento);
 	}
 
 	@Override

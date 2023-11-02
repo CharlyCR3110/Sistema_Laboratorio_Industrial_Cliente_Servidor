@@ -18,12 +18,8 @@ public class ObtenerInstrumentoCommand implements Command<Instrumento> {
 
 	@Override
 	public int execute() {
-		try {
-			this.instrumentoReturn = instrumentoDaoController.obtener(instrumento);
-			return 1;
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL OBTENER INSTRUMENTO");
-		}
+		this.instrumentoReturn = instrumentoDaoController.obtener(instrumento);
+		return 1;
 	}
 
 	@Override

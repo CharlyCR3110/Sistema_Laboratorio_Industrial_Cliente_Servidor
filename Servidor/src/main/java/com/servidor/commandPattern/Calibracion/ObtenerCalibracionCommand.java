@@ -19,12 +19,8 @@ public class ObtenerCalibracionCommand implements Command<Calibracion> {
 
 	@Override
 	public int execute() {
-		try {
-			this.calibracionReturn = calibracionDaoController.obtener(calibracion);
-			return 1;
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL OBTENER INSTRUMENTO");
-		}
+		this.calibracionReturn = calibracionDaoController.obtener(calibracion);
+		return 1;
 	}
 
 	@Override

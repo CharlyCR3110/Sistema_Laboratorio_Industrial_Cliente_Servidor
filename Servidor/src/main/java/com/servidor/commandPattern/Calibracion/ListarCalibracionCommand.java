@@ -20,12 +20,8 @@ public class ListarCalibracionCommand implements Command<Calibracion> {
 
 	@Override
 	public int execute() {
-		try {
-			calibracionListReturn = calibracionDaoController.listar(calibracion.getInstrumento().getSerie());
-			return 1;
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL LISTAR INSTRUMENTO");
-		}
+		calibracionListReturn = calibracionDaoController.listar(calibracion.getInstrumento().getSerie());
+		return 1;
 	}
 
 	@Override

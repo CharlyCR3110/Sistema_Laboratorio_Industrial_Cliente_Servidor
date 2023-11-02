@@ -17,11 +17,7 @@ public class ModificarCalibracionCommand implements Command<Calibracion> {
 
 	@Override
 	public int execute() {
-		try {
-			return calibracionDaoController.modificar(calibracion);
-		} catch (Exception e) {
-			throw new RuntimeException("ERROR AL ELIMINAR INSTRUMENTO");
-		}
+		return calibracionDaoController.modificar(calibracion);
 	}
 
 	@Override
