@@ -129,16 +129,13 @@ public class InstrumentoDao {
 	}
 
 	public List<Instrumento> listarPorDescripcion(String descripcion) {
-		String query;
 		List<Instrumento> r = new ArrayList<>();
 
-		// Verificar si la descripcion es vacia\
-		if (descripcion == null || descripcion.isEmpty()) {
-			// Si es nulo o vacío, obtener todos los elementos de la tabla
-			query = "SELECT * FROM instrumentos";
-		} else {
-			// Si no es nulo o vacío, obtener los elementos con el nombre especificado
-			query = "SELECT * FROM instrumentos WHERE descripcion LIKE ?";
+		// Query SQL para listar los instrumentos
+		String query = "SELECT * FROM instrumentos";
+		// Verificar si la descripcion no es nula o vacia, y si no lo está, modificar la consulta SQL
+		if (descripcion != null && !descripcion.isEmpty()) {
+			query += " WHERE descripcion LIKE ?";
 		}
 
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
