@@ -194,47 +194,43 @@ public class CalibracionDao {
 	}
 
 	public Calibracion obtener(Calibracion calibracion) {
-		// Consulta SQL para obtener un registro de la tabla de calibraciones
+		// Consulta SQL para obtener un registro de la tabla de calibraciones por su número
 		String query = "SELECT * FROM calibraciones WHERE numero = ?";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			// Setear los valores de la consulta SQL
+			// Setear el número de la calibración en la consulta SQL
 			statement.setString(1, calibracion.getNumero());
 
 			// Ejecutar la consulta SQL y obtener el resultado
 			try (ResultSet resultSet = statement.executeQuery()) {
-				// Si existe un registro con el mismo codigo, setear el resultado a true
+				// Si existe un registro con el número de calibración dado
 				if (resultSet.next()) {
-					// Obtener el numero de registros
-					int rows = resultSet.getInt(1);
+					// Crear una nueva instancia de Calibracion
+					Calibracion calibracionFinal = new Calibracion();
 
-					// Si el numero de registros es mayor a 0, entonces existe un registro con el mismo codigo
-					if (rows > 0) {
-						// Crear una nueva instancia de Calibracion
-						Calibracion calibracionFinal = new Calibracion();
+					// Llenar los datos de la calibración con los datos obtenidos de la base de datos
+					calibracionFinal.setNumero(resultSet.getString("numero"));
+					calibracionFinal.setFecha(resultSet.getDate("fecha").toLocalDate());
+					calibracionFinal.setNumeroDeMediciones(resultSet.getInt("numero_de_mediciones"));
 
-						// Llenar los datos de la calibracion con los datos obtenidos de la base de datos
-						calibracionFinal.setNumero(resultSet.getString("numero"));
-						calibracionFinal.setFecha(resultSet.getDate("fecha").toLocalDate());
-						calibracionFinal.setNumeroDeMediciones(resultSet.getInt("numero_de_mediciones"));
-						// obtener las mediciones de la calibracion
-						List<Medicion> mediciones = medicionDaoController.listar(calibracionFinal.getNumero());
-						calibracionFinal.setMediciones(mediciones);
-						// obtener el instrumento de la calibracion
-						Instrumento instrumentoFilter = new Instrumento();
-						instrumentoFilter.setSerie(resultSet.getString("instrumento_serie"));
+					// Obtener las mediciones de la calibración
+					List<Medicion> mediciones = medicionDaoController.listar(calibracionFinal.getNumero());
+					calibracionFinal.setMediciones(mediciones);
 
-						Instrumento instrumentoFinal = instrumentoDaoController.obtener(instrumentoFilter);
+					// Obtener el instrumento de la calibración
+					Instrumento instrumentoFilter = new Instrumento();
+					instrumentoFilter.setSerie(resultSet.getString("instrumento_serie"));
+					Instrumento instrumentoFinal = instrumentoDaoController.obtener(instrumentoFilter);
+					calibracionFinal.setInstrumento(instrumentoFinal);
 
-						calibracionFinal.setInstrumento(instrumentoFinal);
-
-						return calibracionFinal;
-					}
+					return calibracionFinal;
 				}
 			}
 		} catch (SQLException e) {
-			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			// Lanzar una excepción en caso de que ocurra un error al obtener la calibración por su número
+			throw new RuntimeException("Error al obtener la calibración por su número: " + e.getMessage(), e);
 		}
+
+		// Si no se encontró ninguna calibración con el número dado, retornar null
 		return null;
 	}
 }
