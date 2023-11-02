@@ -21,7 +21,7 @@ public class Service {
 
 	public List<TipoInstrumento> getTipos() {
 		TipoInstrumentoDaoController tipoInstrumentoDaoController = new TipoInstrumentoDaoController();
-		return tipoInstrumentoDaoController.listar();
+		return tipoInstrumentoDaoController.listar("");
 	}
 
 	public TipoInstrumento getTipoSeleccionado(String tipo) {
