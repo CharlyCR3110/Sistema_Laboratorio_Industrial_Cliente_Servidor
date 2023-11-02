@@ -171,7 +171,7 @@ public class TipoInstrumentoDao {
 			return rowsAffected;
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al modificar el TipoInstrumento: " + e.getMessage());
 		}
 	}
 
