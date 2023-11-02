@@ -166,7 +166,7 @@ public class CalibracionDao {
 					instrumentoFilter.setSerie(resultSet.getString("instrumento_serie"));
 					Instrumento instrumentoFinal = instrumentoDaoController.obtener(instrumentoFilter);
 					calibracion.setInstrumento(instrumentoFinal);
-					
+
 					// Agregar la calibracion a la lista de calibraciones
 					calibraciones.add(calibracion);
 				}
@@ -189,7 +189,7 @@ public class CalibracionDao {
 			return statement.executeUpdate();
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al modificar la calibración: " + e.getMessage());
 		}
 	}
 
