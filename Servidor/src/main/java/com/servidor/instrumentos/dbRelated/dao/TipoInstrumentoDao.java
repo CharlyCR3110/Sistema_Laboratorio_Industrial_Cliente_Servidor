@@ -113,17 +113,14 @@ public class TipoInstrumentoDao {
 	}
 
 	public List<TipoInstrumento> listarPorNombre(String nombre) {
-		// Query SQL para listar los TipoInstrumentos que tengan el nombre especificado
-		String query;
 		List<TipoInstrumento> r = new ArrayList<>();
 
-		// Verificar si el nombre es nulo o vacío
-		if (nombre == null || nombre.isEmpty()) {
-			// Si es nulo o vacío, obtener todos los elementos de la tabla
-			query = "SELECT * FROM tipo_instrumentos";
-		} else {
-			// Si no es nulo o vacío, obtener los elementos con el nombre especificado
-			query = "SELECT * FROM tipo_instrumentos WHERE nombre LIKE ?";
+		// Query SQL para listar los TipoInstrumentos
+		String query = "SELECT * FROM tipo_instrumentos";
+
+		// Verificar si el nombre no es nulo ni está vacío, y si no lo está, agregar un WHERE a la consulta SQL
+		if (nombre != null && !nombre.isEmpty()) {
+			query += " WHERE nombre LIKE ?";
 		}
 
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
