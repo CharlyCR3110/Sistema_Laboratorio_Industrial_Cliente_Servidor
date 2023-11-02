@@ -72,47 +72,7 @@ public class TipoInstrumentoDao {
 		}
 	}
 
-	public List<TipoInstrumento> listar() {
-		List<TipoInstrumento> r = new ArrayList<>();
-
-		// Consulta SQL para listar todos los TipoInstrumentos
-		String query = "SELECT * FROM tipo_instrumentos";
-
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			// Ejecutar la consulta SQL y obtener el resultado
-			try (ResultSet resultSet = statement.executeQuery()) {
-				// Recorrer el resultado y agregarlo a la lista
-				while (resultSet.next()) {
-					// se crea un nuevo TipoInstrumento y se agrega a la lista
-					r.add(new TipoInstrumento(
-							resultSet.getString("codigo"),
-							resultSet.getString("nombre"),
-							resultSet.getString("unidad")
-					));
-				}
-			}
-		} catch (SQLException e) {
-			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException("Error al listar los TipoInstrumentos: " + e.getMessage());
-		}
-		return r;
-	}
-
-	public int eliminar(String codigo) {
-		String query = "DELETE FROM tipo_instrumentos WHERE codigo = ?";
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			// Setear los valores de la consulta SQL
-			statement.setString(1, codigo);
-
-			// Ejecutar la consulta SQL y obtener el resultado
-			return statement.executeUpdate();
-		} catch (SQLException e) {
-			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException("Error al eliminar el TipoInstrumento con código " + codigo + ": " + e.getMessage());
-		}
-	}
-
-	public List<TipoInstrumento> listarPorNombre(String nombre) {
+	public List<TipoInstrumento> listar(String nombre) {
 		List<TipoInstrumento> r = new ArrayList<>();
 
 		// Query SQL para listar los TipoInstrumentos
@@ -153,6 +113,19 @@ public class TipoInstrumentoDao {
 		return r;
 	}
 
+	public int eliminar(String codigo) {
+		String query = "DELETE FROM tipo_instrumentos WHERE codigo = ?";
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			// Setear los valores de la consulta SQL
+			statement.setString(1, codigo);
+
+			// Ejecutar la consulta SQL y obtener el resultado
+			return statement.executeUpdate();
+		} catch (SQLException e) {
+			// Lanzar una excepción en caso de que ocurra un error
+			throw new RuntimeException("Error al eliminar el TipoInstrumento con código " + codigo + ": " + e.getMessage());
+		}
+	}
 
 	public int modificar(TipoInstrumento tipoInstrumento) {
 		// Consulta SQL para modificar un TipoInstrumento
