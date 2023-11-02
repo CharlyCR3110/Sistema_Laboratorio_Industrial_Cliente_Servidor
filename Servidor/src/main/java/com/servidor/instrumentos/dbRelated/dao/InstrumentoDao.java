@@ -118,16 +118,13 @@ public class InstrumentoDao {
 			// Ejecutar la consulta SQL y obtener el resultado
 			int rowsAffected = statement.executeUpdate();
 
-			// DEBUG (CAMBIAR POR UN RETURN DIRECTO)
 			if (rowsAffected == 0) {
-				System.out.println("No se elimino el instrumento");
-				throw new SQLException("No se elimino el instrumento");
+				throw new SQLException("No se eliminó el instrumento de la base de datos");
 			}
-
 			return rowsAffected;
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al eliminar el instrumento: " + e.getMessage());
 		}
 	}
 
