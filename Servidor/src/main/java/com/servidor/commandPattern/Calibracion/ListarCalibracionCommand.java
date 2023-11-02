@@ -20,7 +20,9 @@ public class ListarCalibracionCommand implements Command<Calibracion> {
 
 	@Override
 	public int execute() {
-		calibracionListReturn = calibracionDaoController.listar(calibracion.getInstrumento().getSerie());
+		calibracionListReturn = calibracion.getInstrumento() == null ?
+				calibracionDaoController.listar("NO HAY INSTRUMENTO") :
+				calibracionDaoController.listar(calibracion.getInstrumento().getSerie());
 		return 1;
 	}
 
