@@ -105,12 +105,7 @@ public class TipoInstrumentoDao {
 			statement.setString(1, codigo);
 
 			// Ejecutar la consulta SQL y obtener el resultado
-			int rowsAffected = statement.executeUpdate();
-
-			// Obtener el id generado
-
-			// Retornar el número de filas afectadas
-			return rowsAffected;
+			return statement.executeUpdate();
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
 			throw new RuntimeException("Error al eliminar el TipoInstrumento con código " + codigo + ": " + e.getMessage());
