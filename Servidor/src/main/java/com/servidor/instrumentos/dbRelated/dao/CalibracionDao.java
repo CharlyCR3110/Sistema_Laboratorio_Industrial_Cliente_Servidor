@@ -23,31 +23,30 @@ public class CalibracionDao {
 	}
 
 	public boolean tieneDuplicados(Calibracion calibracion) {
-		boolean r = false;
-		// Consulta SQL para verificar si existe un registro con el mismo codigo
-		String query = "SELECT * FROM calibraciones WHERE numero = ?";
+		// Consulta SQL para verificar si existe un registro con el mismo número de calibración
+		String query = "SELECT COUNT(*) FROM calibraciones WHERE numero = ?";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			// Setear los valores de la consulta SQL
 			statement.setString(1, calibracion.getNumero());
 
 			// Ejecutar la consulta SQL y obtener el resultado
 			try (ResultSet resultSet = statement.executeQuery()) {
-				// Si existe un registro con el mismo codigo, setear el resultado a true
+				// Si existe un registro con el mismo número de calibración, setear el resultado a true
 				if (resultSet.next()) {
-					// Obtener el numero de registros
-					int rows = resultSet.getInt(1);
+					// Obtener el número de registros
+					int count = resultSet.getInt(1);
 
-					// Si el numero de registros es mayor a 0, entonces existe un registro con el mismo codigo
-					if (rows > 0) {
-						r = true;
-					}
+					// Si el número de registros es mayor a 0, entonces existe un registro con el mismo número de calibración
+					return count > 0;
 				}
 			}
 		} catch (SQLException e) {
-			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			// Capturar excepciones específicas y proporcionar mensajes descriptivos
+			throw new RuntimeException("Error al verificar duplicados de calibración: " + e.getMessage(), e);
 		}
-		return r;
+
+		// Si no se encontraron registros duplicados, retornar false
+		return false;
 	}
 
 	public int guardar(Calibracion calibracion) {
