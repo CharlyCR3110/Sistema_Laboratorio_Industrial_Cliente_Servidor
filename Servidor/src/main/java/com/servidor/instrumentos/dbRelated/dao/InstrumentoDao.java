@@ -224,7 +224,7 @@ public class InstrumentoDao {
 				}
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al obtener el instrumento: " + e.getMessage());
 		}
 		return null;
 	}
