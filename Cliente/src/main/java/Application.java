@@ -80,7 +80,7 @@ public class Application {
 				int selectedIndex = tabbedPane.getSelectedIndex();
 				if (selectedIndex == 2) { // Índice 2 corresponde a la pestaña de Calibraciones
 					tabbedPane.setSelectedIndex(selectedIndex);
-//					mediator.setInstrumentoSeleccionado();
+					mediator.setInstrumentoSeleccionado();
 				}
 			}
 		};
