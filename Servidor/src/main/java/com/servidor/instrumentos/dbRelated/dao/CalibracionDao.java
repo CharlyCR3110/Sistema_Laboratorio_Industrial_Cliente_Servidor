@@ -80,7 +80,7 @@ public class CalibracionDao {
 	}
 
 	public List<Calibracion> listar(String instrumento_serie) {	// lista de calibraciones de un instrumento
-		List<Calibracion> r = new ArrayList<>();
+		List<Calibracion> calibracions = new ArrayList<>();
 		// Consulta SQL para obtener las calibraciones de un instrumento
 		String query = "SELECT * FROM calibraciones WHERE instrumento_serie = ?";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -98,25 +98,26 @@ public class CalibracionDao {
 					calibracion.setNumero(resultSet.getString("numero"));
 					calibracion.setFecha(resultSet.getDate("fecha").toLocalDate());
 					calibracion.setNumeroDeMediciones(resultSet.getInt("numero_de_mediciones"));
+					
 					// obtener las mediciones de la calibracion
 					List<Medicion> mediciones = medicionDaoController.listar(calibracion.getNumero());
 					calibracion.setMediciones(mediciones);
+
 					// obtener el instrumento de la calibracion
 					Instrumento instrumentoFilter = new Instrumento();
 					instrumentoFilter.setSerie(resultSet.getString("instrumento_serie"));
-
 					Instrumento instrumentoFinal = instrumentoDaoController.obtener(instrumentoFilter);
-
 					calibracion.setInstrumento(instrumentoFinal);
+
 					// Agregar la calibracion a la lista de calibraciones
-					r.add(calibracion);
+					calibracions.add(calibracion);
 				}
 			}
 		} catch (SQLException e) {
 			// Lanzar una excepción en caso de que ocurra un error
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error al listar las calibraciones del instrumento: " + e.getMessage(), e);
 		}
-		return r;
+		return calibracions;
 	}
 
 	// por el DELETE CASCADE, no es necesario eliminar las mediciones de la calibracion
