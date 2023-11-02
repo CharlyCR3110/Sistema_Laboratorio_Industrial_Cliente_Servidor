@@ -31,3 +31,6 @@ ElementosCompartidos/target/*
 
 # Intellij
 .idea/
+
+# database.properties
+Servidor/src/main/resources/database.properties
