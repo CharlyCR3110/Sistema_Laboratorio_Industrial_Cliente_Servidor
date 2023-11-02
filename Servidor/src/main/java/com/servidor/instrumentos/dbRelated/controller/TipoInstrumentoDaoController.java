@@ -18,14 +18,11 @@ public class TipoInstrumentoDaoController {
 	public int guardar(TipoInstrumento tipoInstrumento) {
 		return tipoInstrumentoDao.guardar(tipoInstrumento);
 	}
-	public List<TipoInstrumento> listar() {
-		return tipoInstrumentoDao.listar();
+	public List<TipoInstrumento> listar(String nombre) {
+		return tipoInstrumentoDao.listar(nombre);
 	}
 	public int eliminar(String codigo) {
 		return tipoInstrumentoDao.eliminar(codigo);
-	}
-	public List<TipoInstrumento> listarPorNombre(String nombre) {
-		return tipoInstrumentoDao.listarPorNombre(nombre);
 	}
 	public int modificar(TipoInstrumento tipoInstrumento) {
 		return tipoInstrumentoDao.modificar(tipoInstrumento);
