@@ -8,7 +8,6 @@ import com.compartidos.elementosCompartidos.Instrumento;
 import com.compartidos.elementosCompartidos.Medicion;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
