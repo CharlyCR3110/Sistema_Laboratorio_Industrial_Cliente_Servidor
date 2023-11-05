@@ -33,4 +33,6 @@ ElementosCompartidos/target/*
 .idea/
 
 # database.properties
-Servidor/src/main/resources/database.properties
+
+# view
+Cliente/src/main/java/com/cliente/reportes/*

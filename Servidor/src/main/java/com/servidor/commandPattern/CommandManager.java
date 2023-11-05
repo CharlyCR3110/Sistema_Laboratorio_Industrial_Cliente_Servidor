@@ -1,5 +1,6 @@
 package com.servidor.commandPattern;
 
+import com.servidor.commandPattern.Medicion.ModificarMedicionCommand;
 import com.servidor.commandPattern.TipoInstumento.*;
 import com.servidor.commandPattern.Instrumento.*;
 import com.servidor.commandPattern.Calibracion.*;
@@ -28,6 +29,7 @@ public class CommandManager {
 	private final static ModificarCalibracionCommand modificarCalibracionCommand = new ModificarCalibracionCommand();
 	private final static ObtenerCalibracionCommand obtenerCalibracionCommand = new ObtenerCalibracionCommand();
 
+	private final static ModificarMedicionCommand modificarMedicionCommand = new ModificarMedicionCommand();
 	// Mapa de comandos
 	private final Map<String, Command<?>> commandMap;
 
@@ -51,6 +53,8 @@ public class CommandManager {
 		commandMap.put("LISTAR_CALIBRACION", listarCalibracionCommand);
 		commandMap.put("MODIFICAR_CALIBRACION", modificarCalibracionCommand);
 		commandMap.put("OBTENER_CALIBRACION", obtenerCalibracionCommand);
+
+		commandMap.put("MODIFICAR_MEDICION", modificarMedicionCommand);
 
 		//DEBUG
 		System.out.println("CommandManager: initialized");
