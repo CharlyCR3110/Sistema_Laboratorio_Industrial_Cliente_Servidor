@@ -16,7 +16,7 @@ public class Application {
 	private static com.cliente.instrumentos.presentation.tipos.Controller tiposController;
 	private static com.cliente.instrumentos.presentation.instrumentos.Controller instrumentosController;
 	private static com.cliente.instrumentos.presentation.calibraciones.Controller calibracionesController;
-	private static com.cliente.instrumentos.presentation.notificaciones.View notificacionesView;
+	private static com.cliente.instrumentos.presentation.notificaciones.NotificacionesController notificacionesController;
 
 	private static Mediator mediator;
 
@@ -62,6 +62,10 @@ public class Application {
 				new com.cliente.instrumentos.presentation.calibraciones.Model()
 		);
 
+		notificacionesController = new com.cliente.instrumentos.presentation.notificaciones.NotificacionesController(
+				new com.cliente.instrumentos.presentation.notificaciones.View()
+		);
+
 		mediator = new Mediator(instrumentosController, calibracionesController);
 	}
 
@@ -69,8 +73,7 @@ public class Application {
 		tabbedPane.addTab("Tipos de Instrumento", tiposController.getView().getPanel());
 		tabbedPane.addTab("Instrumentos", instrumentosController.getView().getPanel());
 		tabbedPane.addTab("Calibraciones", calibracionesController.getView().getPanel());
-		com.cliente.instrumentos.presentation.notificaciones.View notificacionesView = new com.cliente.instrumentos.presentation.notificaciones.View();
-		tabbedPane.addTab("Notificaciones", notificacionesView.getPanel());
+		tabbedPane.addTab("Notificaciones", notificacionesController.getView().getPanel());
 		tabbedPane.addTab("Acerca de", new com.cliente.instrumentos.presentation.acercaDe.View().getPanel());
 	}
 
