@@ -8,7 +8,7 @@ public class View {
 	private JLabel title;
 
 	public View() {
-
+		registro.setEditable(false);
 	}
 
 	public void agregarMensaje(String mensaje) {
