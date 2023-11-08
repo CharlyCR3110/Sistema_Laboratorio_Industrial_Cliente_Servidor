@@ -19,7 +19,7 @@ public class ServiceMedicion {
 
 	public int modificar(Medicion medicion) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(MODIFICAR_MEDICION, medicion);
+			clienteServidorHandler.enviarComandoAlServidor(MODIFICAR_MEDICION, medicion);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
