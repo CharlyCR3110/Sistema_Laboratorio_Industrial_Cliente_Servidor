@@ -5,6 +5,8 @@ import com.cliente.instrumentos.logic.ClienteServidorHandler;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Objects;
 
 public class Application {
@@ -26,6 +28,7 @@ public class Application {
 		setupTabs();
 		setupWindow();
 		addTabChangeListeners();
+		addWindowListener();
 	}
 
 	private static void setLookAndFeel() {
@@ -109,5 +112,24 @@ public class Application {
 		window.setTitle("SILAB: Sistema de Laboratorio Industrial");
 		window.setVisible(true);
 	}
+
+	// Cuando el cliente quiera cerrar la ventana, se cierra la conexión con el servidor
+	private static void addWindowListener() {
+		window.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					ClienteServidorHandler clienteServidorHandler = ClienteServidorHandler.instance();
+					clienteServidorHandler.enviarComandoAlServidor("close", null);
+					System.out.println("Cerrando conexión con el servidor");
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				} finally {
+					System.exit(0);
+				}
+			}
+		});
+	}
+
 
 }
