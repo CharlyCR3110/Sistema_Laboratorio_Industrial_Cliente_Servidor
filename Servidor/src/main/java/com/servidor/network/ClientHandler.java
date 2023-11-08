@@ -13,18 +13,26 @@ import java.net.Socket;
 public class ClientHandler implements Runnable{
 	private final Socket socket;
 	private final CommandManager commandManager;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+
 	public ClientHandler(Socket socket) {
 		this.socket = socket;
 		this.commandManager = new CommandManager();
+		try {
+			// Crear los flujos de salida/entrada una sola vez al inicio
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
+
 
 	@Override
 	public void run() {
-		try (
-				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-				ObjectInputStream in = new ObjectInputStream(socket.getInputStream())
-		) {
-			while (true) {	// si hay datos para leer
+		try {
+			while (true) {
 				// Leer el comando y el objeto
 				String commandName = (String) in.readObject();
 				Object datos = in.readObject();
@@ -75,19 +83,15 @@ public class ClientHandler implements Runnable{
 				out.writeObject(returnObject);
 				out.flush();
 			}
-		}catch (EOFException e) {
+		} catch (EOFException e) {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Error en el clienteHandler: " + e.getMessage());	// DEBUG
+			System.out.println("Error en el clienteHandler: " + e.getMessage());    // DEBUG
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			try {
-				// Cerrar los flujos y el socket
-				socket.close();
-				System.out.println("SOCKET CERRADO");
-			} catch (IOException e) {
-				System.out.println("Error al cerrar el socket: " + e.getMessage());	// DEBUG
+				// No se puede cerrar el socket porque se cierra la conexión con el cliente
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
