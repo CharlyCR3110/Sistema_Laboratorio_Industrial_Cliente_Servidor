@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO mejorar el manejo de errores
 public class ClientHandler implements Runnable{
@@ -15,10 +17,13 @@ public class ClientHandler implements Runnable{
 	private final CommandManager commandManager;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	private List<Thread> threads = new ArrayList<>();
 
-	public ClientHandler(Socket socket) {
+
+	public ClientHandler(Socket socket, List<Thread> threads) {
 		this.socket = socket;
 		this.commandManager = new CommandManager();
+		this.threads = threads;
 		try {
 			// Crear los flujos de salida/entrada una sola vez al inicio
 			out = new ObjectOutputStream(socket.getOutputStream());
@@ -85,6 +90,7 @@ public class ClientHandler implements Runnable{
 			}
 		} catch (EOFException e) {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
+			threads.remove(Thread.currentThread());
 		} catch (IOException | ClassNotFoundException e) {
 			System.out.println("Error en el clienteHandler: " + e.getMessage());    // DEBUG
 			e.printStackTrace();
