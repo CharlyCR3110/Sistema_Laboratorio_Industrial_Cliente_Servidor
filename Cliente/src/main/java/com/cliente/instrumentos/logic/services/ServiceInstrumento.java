@@ -21,7 +21,7 @@ public class ServiceInstrumento {
 
 	public int guardar(Instrumento Instrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(GUARDAR_INSTRUMENTO, Instrumento);
+			clienteServidorHandler.enviarComandoAlServidor(GUARDAR_INSTRUMENTO, Instrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -32,7 +32,7 @@ public class ServiceInstrumento {
 
 	public int eliminar(Instrumento instrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(ELIMINAR_INSTRUMENTO, instrumento);
+			clienteServidorHandler.enviarComandoAlServidor(ELIMINAR_INSTRUMENTO, instrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -43,7 +43,7 @@ public class ServiceInstrumento {
 
 	public int modificar(Instrumento instrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(MODIFICAR_INSTRUMENTO, instrumento);
+			clienteServidorHandler.enviarComandoAlServidor(MODIFICAR_INSTRUMENTO, instrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -55,7 +55,7 @@ public class ServiceInstrumento {
 	public List<Instrumento> listar(Instrumento filter) {
 		Object returnObject;
 		try {
-			returnObject = ClienteServidorHandler.enviarComandoAlServidor(LISTAR_INSTRUMENTO, filter);
+			returnObject = clienteServidorHandler.enviarComandoAlServidor(LISTAR_INSTRUMENTO, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
@@ -76,7 +76,7 @@ public class ServiceInstrumento {
 
 	public Instrumento obtener(Instrumento instrumento) {
 		try {
-			return (Instrumento) ClienteServidorHandler.enviarComandoAlServidor(OBTENER_INSTRUMENTO, instrumento);
+			return (Instrumento) clienteServidorHandler.enviarComandoAlServidor(OBTENER_INSTRUMENTO, instrumento);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
