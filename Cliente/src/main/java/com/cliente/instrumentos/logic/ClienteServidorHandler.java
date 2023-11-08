@@ -32,27 +32,57 @@ public class ClienteServidorHandler {
 		return theInstance;
 	}
 
-	// metodo encargado de enviar el comando al servidor (sirve literalmente para cualquier comando)
+	// Método para enviar la solicitud al servidor
+	private synchronized void enviarSolicitudAlServidor(String commandName, Object datos) {
+		try {
+			out.writeObject(commandName);
+			out.writeObject(datos);
+			out.flush();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	// Método para recibir la respuesta del servidor
+	private synchronized Object recibirRespuestaDelServidor() {
+		try {
+			return in.readObject();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	// Método para manejar notificaciones en un hilo separado
+	public void manejarNotificaciones() {
+		new Thread(() -> {
+			try {
+				while (true) {
+					Object notificacion = recibirRespuestaDelServidor();
+					// Lógica para manejar la notificación (puedes adaptar según tus necesidades)
+					System.out.println("Notificación del servidor: " + notificacion);
+				}
+			} catch (Exception e) {
+				e.printStackTrace(); // Manejar la excepción adecuadamente
+			}
+		}).start();
+	}
+
+	// Método para enviar comandos al servidor y recibir respuestas
 	public synchronized Object enviarComandoAlServidor(String commandName, Object datos) {
 		try {
 			if (commandName.equals("close")) {
 				cerrarConexion();
 				return null;
 			}
-			// Enviar el comando y el objeto al servidor
-			out.writeObject(commandName);
-			out.writeObject(datos);
-			out.flush();
 
-			// Esperar la respuesta del servidor
-			int resultCode = (int) in.readObject();
+			enviarSolicitudAlServidor(commandName, datos);
+
+			int resultCode = (int) recibirRespuestaDelServidor();
 			if (resultCode != 1) {
-				// El comando no se ejecutó con éxito
-				throw new RuntimeException("Error en ClienteServidorHandler.enviarComandoAlServidor: code: " + resultCode + "Object: " + in.readObject());
+				throw new RuntimeException("Error en ClienteServidorHandler.enviarComandoAlServidor: code: " + resultCode);
 			}
 
-			// Esperar la respuesta del servidor y devolver el objeto recibido
-			return in.readObject();
+			return recibirRespuestaDelServidor();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
