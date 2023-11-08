@@ -1,9 +1,5 @@
 package com.cliente.instrumentos.logic;
 
-import com.compartidos.elementosCompartidos.Calibracion;
-import com.compartidos.elementosCompartidos.Instrumento;
-import com.compartidos.elementosCompartidos.TipoInstrumento;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
