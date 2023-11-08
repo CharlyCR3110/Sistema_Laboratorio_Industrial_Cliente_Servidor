@@ -21,7 +21,7 @@ public class ServiceCalibracion {
 
 	public int guardar(Calibracion calibracion) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(GUARDAR_CALIBRACION, calibracion);
+			clienteServidorHandler.enviarComandoAlServidor(GUARDAR_CALIBRACION, calibracion);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -32,7 +32,7 @@ public class ServiceCalibracion {
 
 	public int eliminar(Calibracion calibracion) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(ELIMINAR_CALIBRACION, calibracion);
+			clienteServidorHandler.enviarComandoAlServidor(ELIMINAR_CALIBRACION, calibracion);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -43,7 +43,7 @@ public class ServiceCalibracion {
 
 	public int modificar(Calibracion calibracion) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(MODIFICAR_CALIBRACION, calibracion);
+			clienteServidorHandler.enviarComandoAlServidor(MODIFICAR_CALIBRACION, calibracion);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -55,7 +55,7 @@ public class ServiceCalibracion {
 	public List<Calibracion> listar(Calibracion filter) {
 		Object returnObject;
 		try {
-			returnObject = ClienteServidorHandler.enviarComandoAlServidor(LISTAR_CALIBRACION, filter);
+			returnObject = clienteServidorHandler.enviarComandoAlServidor(LISTAR_CALIBRACION, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
@@ -76,7 +76,7 @@ public class ServiceCalibracion {
 
 	public Calibracion obtener(Calibracion calibracion) {
 		try {
-			return (Calibracion) ClienteServidorHandler.enviarComandoAlServidor(OBTENER_CALIBRACION, calibracion);
+			return (Calibracion) clienteServidorHandler.enviarComandoAlServidor(OBTENER_CALIBRACION, calibracion);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
