@@ -5,6 +5,7 @@ import com.cliente.instrumentos.logic.ClienteServidorHandler;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Objects;
@@ -43,7 +44,15 @@ public class Application {
 	private static void initializeComponents() {
 		window = new JFrame();
 		tabbedPane = new JTabbedPane();
-		window.setContentPane(tabbedPane);
+		window.setLayout(new BorderLayout());
+		window.add(tabbedPane, BorderLayout.CENTER);
+
+
+		JPanel mensajes = new com.cliente.instrumentos.presentation.notificaciones.View().getPanel();
+		mensajes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		mensajes.setBounds(770, 10, 300, 400);
+
+		window.add(mensajes, BorderLayout.EAST);
 	}
 
 	private static void setupControllers() {
@@ -73,7 +82,7 @@ public class Application {
 		tabbedPane.addTab("Tipos de Instrumento", tiposController.getView().getPanel());
 		tabbedPane.addTab("Instrumentos", instrumentosController.getView().getPanel());
 		tabbedPane.addTab("Calibraciones", calibracionesController.getView().getPanel());
-		tabbedPane.addTab("Notificaciones", notificacionesController.getView().getPanel());
+//		tabbedPane.addTab("Notificaciones", notificacionesController.getView().getPanel());
 		tabbedPane.addTab("Acerca de", new com.cliente.instrumentos.presentation.acercaDe.View().getPanel());
 	}
 
