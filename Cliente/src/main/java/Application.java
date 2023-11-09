@@ -19,10 +19,10 @@ public class Application {
 	private static com.cliente.instrumentos.presentation.calibraciones.Controller calibracionesController;
 	private static com.cliente.instrumentos.presentation.notificaciones.NotificacionesController notificacionesController;
 
+	private final static ClienteServidorHandler clienteServidorHandler = ClienteServidorHandler.instance();
 	private static Mediator mediator;
 
 	public static void main(String[] args) {
-		ClienteServidorHandler clienteServidorHandler = ClienteServidorHandler.instance();
 		setLookAndFeel();
 
 		initializeComponents();
@@ -134,7 +134,6 @@ public class Application {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				try {
-					ClienteServidorHandler clienteServidorHandler = ClienteServidorHandler.instance();
 					clienteServidorHandler.enviarComandoAlServidor("close", null);
 					System.out.println("Cerrando conexión con el servidor");
 				} catch (Exception ex) {
