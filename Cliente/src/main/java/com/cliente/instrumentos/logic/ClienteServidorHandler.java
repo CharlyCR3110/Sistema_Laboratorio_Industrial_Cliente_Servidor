@@ -98,4 +98,16 @@ public class ClienteServidorHandler {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public ObjectOutputStream getOutputSteam() {
+		return out;
+	}
+
+	public ObjectInputStream getInputStream() {
+		return in;
+	}
 }
