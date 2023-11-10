@@ -46,14 +46,15 @@ public class Server {
 						objectSocketSync.out.writeObject(objectSocketSync.sid);
 						break;
 					case 2:
+						System.out.println("ASYNCH");
 						sid = (String) objectSocketSync.in.readObject();
 						objectSocketSync.sid = sid;
 						System.out.println("ASYNCH: " + objectSocketSync.sid);
 						join(objectSocketSync);
 						break;
 				}
-				clientHandler.start();
 				objectSocketSync.out.flush();
+				clientHandler.start();
 			} catch (Exception ex) {
 				System.out.println(ex);
 			}
@@ -61,6 +62,7 @@ public class Server {
 	}
 
 	public void join(ObjectSocket objectSocketAsync) {
+		System.out.println("JOIN");
 		for (ClientHandler w : workers) {
 			if (w.objectSocketSync.sid.equals(objectSocketAsync.sid)) {
 				w.objectSocketAsync = objectSocketAsync;
