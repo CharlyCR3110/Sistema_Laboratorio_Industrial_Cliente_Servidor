@@ -1,8 +1,10 @@
 package com.cliente.instrumentos.presentation.notificaciones;
 
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
+import com.cliente.instrumentos.logic.async.ITarget;
+import com.compartidos.elementosCompartidos.MensajeAsincrono;
 
-public class NotificacionesController {
+public class NotificacionesController implements ITarget {
 	private View view;
 	private final ClienteServidorHandler clienteServidorHandler = ClienteServidorHandler.instance();
 
@@ -17,5 +19,10 @@ public class NotificacionesController {
 
 	public View getView() {
 		return view;
+	}
+
+	@Override
+	public void deliver(MensajeAsincrono message) {
+		view.agregarMensaje(message.getMensaje());
 	}
 }
