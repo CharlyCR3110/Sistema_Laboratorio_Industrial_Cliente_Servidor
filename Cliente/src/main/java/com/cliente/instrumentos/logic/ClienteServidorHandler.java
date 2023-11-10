@@ -1,5 +1,7 @@
 package com.cliente.instrumentos.logic;
 
+import com.compartidos.elementosCompartidos.ObjectSocket;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -8,22 +10,22 @@ public class ClienteServidorHandler {
 	private static final String SERVER_ADDRESS = "localhost";
 	private static final int SERVER_PORT = 12345;
 	private static ClienteServidorHandler theInstance;
-	private Socket socket;
-	private ObjectOutputStream out;
-	private ObjectInputStream in;
-
+	private static ObjectSocket objectSocketSync;	// socket Sync encargado de enviar y recibir mensajes
 	public static synchronized ClienteServidorHandler instance() {
 		if (theInstance == null) theInstance = new ClienteServidorHandler();
 		return theInstance;
 	}
 
 	private ClienteServidorHandler() {
+		connect();
+	}
+
+	private void connect(){
 		try {
-			// Crear el socket y los flujos una sola vez al inicio
-			socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-			out = new ObjectOutputStream(socket.getOutputStream());
-			in = new ObjectInputStream(socket.getInputStream());
+			Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+			objectSocketSync = new ObjectSocket(socket);
 		} catch (Exception e) {
+			System.out.println("Error al conectar el socketSync al servidor");
 			throw new RuntimeException(e);
 		}
 	}
@@ -35,9 +37,9 @@ public class ClienteServidorHandler {
 	// Método para enviar la solicitud al servidor
 	private synchronized void enviarSolicitudAlServidor(String commandName, Object datos) {
 		try {
-			out.writeObject(commandName);
-			out.writeObject(datos);
-			out.flush();
+			objectSocketSync.out.writeObject(commandName);
+			objectSocketSync.out.writeObject(datos);
+			objectSocketSync.out.flush();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -46,7 +48,7 @@ public class ClienteServidorHandler {
 	// Método para recibir la respuesta del servidor
 	private synchronized Object recibirRespuestaDelServidor() {
 		try {
-			return in.readObject();
+			return objectSocketSync.in.readObject();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -91,23 +93,11 @@ public class ClienteServidorHandler {
 	// Agrega un método para cerrar la conexión al cerrar la aplicación
 	public void cerrarConexion() {
 		try {
-			socket.close();
-			out.close();
-			in.close();
+			objectSocketSync.out.writeObject("close");
+			objectSocketSync.out.flush();
+			objectSocketSync.socket.close();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public Socket getSocket() {
-		return socket;
-	}
-
-	public ObjectOutputStream getOutputSteam() {
-		return out;
-	}
-
-	public ObjectInputStream getInputStream() {
-		return in;
 	}
 }
