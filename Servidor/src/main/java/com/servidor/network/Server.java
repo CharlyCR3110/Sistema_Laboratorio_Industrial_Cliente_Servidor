@@ -10,13 +10,11 @@ import java.util.*;
 
 public class Server {
 	ServerSocket serverSocket;
-	ServerSocket notificationSocket;
 	List<ClientHandler> workers;
 	private final int PORT = 12345;
 	public Server() {
 		try {
 			serverSocket = new ServerSocket(PORT);
-			notificationSocket = new ServerSocket(PORT + 1);
 			workers = Collections.synchronizedList(new ArrayList<ClientHandler>());
 			System.out.println("Servidor iniciado...");
 		} catch (IOException ex) {
@@ -28,22 +26,45 @@ public class Server {
 	public void run() {
 		boolean continuar = true;
 		ObjectSocket objectSocketSync = null;
-		ObjectSocket objectSocketAsync = null;
 		Socket socket = null;
-		Socket notificationSocket = null;
+		ClientHandler clientHandler = null;
+		String sid;
 		while (continuar) {
 			try {
 				socket = serverSocket.accept();
-				notificationSocket = this.notificationSocket.accept();
 				objectSocketSync = new ObjectSocket(socket);
-				objectSocketAsync = new ObjectSocket(notificationSocket);
 				System.out.println("Conexion Establecida...");
-				ClientHandler worker = new ClientHandler(this, objectSocketSync, objectSocketAsync);
-				workers.add(worker);
-				System.out.println("Quedan: " + workers.size());
-				worker.start();
+				int type = objectSocketSync.in.readInt();	// 1: Sincrono, 2: Asincrono
+				switch (type) {
+					case 1:
+						sid = socket.getRemoteSocketAddress().toString();
+						objectSocketSync.sid = sid;
+						System.out.println("SYNCH: " + objectSocketSync.sid);
+						clientHandler = new ClientHandler(this, objectSocketSync);
+						workers.add(clientHandler);
+						System.out.println("Quedan: " + workers.size());
+						objectSocketSync.out.writeObject(objectSocketSync.sid);
+						break;
+					case 2:
+						sid = (String) objectSocketSync.in.readObject();
+						objectSocketSync.sid = sid;
+						System.out.println("ASYNCH: " + objectSocketSync.sid);
+						join(objectSocketSync);
+						break;
+				}
+				clientHandler.start();
+				objectSocketSync.out.flush();
 			} catch (Exception ex) {
 				System.out.println(ex);
+			}
+		}
+	}
+
+	public void join(ObjectSocket objectSocketAsync) {
+		for (ClientHandler w : workers) {
+			if (w.objectSocketSync.sid.equals(objectSocketAsync.sid)) {
+				w.objectSocketAsync = objectSocketAsync;
+				break;
 			}
 		}
 	}
@@ -52,7 +73,6 @@ public class Server {
 		System.out.println("Hello world from Server!");
 		Server server = new Server();
 		server.run();
-
 	}
 
 	public String listaWorkersSize() {
