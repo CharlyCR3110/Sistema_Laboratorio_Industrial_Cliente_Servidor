@@ -1,6 +1,7 @@
 package com.servidor.network;
 
 import com.compartidos.elementosCompartidos.MensajeAsincrono;
+import com.compartidos.elementosCompartidos.ObjectSocket;
 import com.servidor.commandPattern.Command;
 import com.servidor.commandPattern.CommandManager;
 
@@ -15,42 +16,31 @@ import java.util.List;
 import java.util.Map;
 
 //TODO mejorar el manejo de errores
-public class ClientHandler implements Runnable{
-	private final Socket socket;
+public class ClientHandler {
+	private Server server;
 	private final CommandManager commandManager;
-	private ObjectOutputStream out;
-	private ObjectInputStream in;
-	private Map<Thread, ObjectOutputStream> clientStreams = new HashMap<>();
+	private ObjectSocket objectSocketSync;
 
-
-	public ClientHandler(Socket socket, Map<Thread, ObjectOutputStream> clientStreams) {
-		this.socket = socket;
+	public ClientHandler(Server server, ObjectSocket objectSocketSync) {
+		this.server = server;
+		this.objectSocketSync = objectSocketSync;
 		this.commandManager = new CommandManager();
-		this.clientStreams = clientStreams;
-		try {
-			// Crear los flujos de salida/entrada una sola vez al inicio
-			out = new ObjectOutputStream(socket.getOutputStream());
-			in = new ObjectInputStream(socket.getInputStream());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
-	@Override
-	public void run() {
+	public void start() {
 		try {
 			while (true) {
-				System.out.println("Clientes conectados: " + clientStreams.size());    // DEBUG
+				System.out.println("Clientes conectados: " + server.listaWorkersSize());    // DEBUG
 				// Leer el comando y el objeto
-				String commandName = (String) in.readObject();
-				Object datos = in.readObject();
+				String commandName = (String) objectSocketSync.in.readObject();
+				Object datos = objectSocketSync.in.readObject();
 
 				// obtener el comando
 				Command<?> command = commandManager.getCommand(commandName);
 				if (command == null) {
-					out.writeObject(-1);
-					out.writeObject("Comando no encontrado");
-					out.flush();
+					objectSocketSync.out.writeObject(-1);
+					objectSocketSync.out.writeObject("Comando no encontrado");
+					objectSocketSync.out.flush();
 					throw new RuntimeException("Comando no encontrado");
 				}
 				System.out.println("Comando obtenido: " + commandName);
@@ -58,9 +48,9 @@ public class ClientHandler implements Runnable{
 				// Configura los datos del comando con los datos del cliente
 				if (datos == null) {
 					System.out.println("Datos nulos");
-					out.writeObject(-1);
-					out.writeObject("Datos no encontrados");
-					out.flush();
+					objectSocketSync.out.writeObject(-1);
+					objectSocketSync.out.writeObject("Datos no encontrados");
+					objectSocketSync.out.flush();
 				}
 
 				System.out.println("DATO NO NULO");
@@ -71,9 +61,9 @@ public class ClientHandler implements Runnable{
 				try {
 					resultCode = command.execute();
 				} catch (Exception ex) {
-					out.writeObject(-1);
-					out.writeObject(ex.getMessage());
-					out.flush();
+					objectSocketSync.out.writeObject(-1);
+					objectSocketSync.out.writeObject(ex.getMessage());
+					objectSocketSync.out.flush();
 					throw new RuntimeException("Error al ejecutar el comando");
 				}
 
@@ -87,14 +77,14 @@ public class ClientHandler implements Runnable{
 				}
 
 				// Enviar el resultado al cliente
-				out.writeObject(resultCode);
-				out.writeObject(returnObject);
-				out.flush();
+				objectSocketSync.out.writeObject(resultCode);
+				objectSocketSync.out.writeObject(returnObject);
+				objectSocketSync.out.flush();
 			}
 		} catch (EOFException e) {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
-			// eliminar el hilo de la lista de hilos
-			clientStreams.remove(Thread.currentThread());
+			// eliminar el cliente de la lista de clientes
+			server.remove(this);
 		} catch (IOException | ClassNotFoundException e) {
 			System.out.println("Error en el clienteHandler: " + e.getMessage());    // DEBUG
 			e.printStackTrace();
@@ -105,9 +95,5 @@ public class ClientHandler implements Runnable{
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public ObjectOutputStream getOutputSteam() {
-		return out;
 	}
 }
