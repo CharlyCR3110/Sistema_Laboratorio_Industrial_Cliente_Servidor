@@ -10,15 +10,26 @@ public class ObjectSocket {
 	public ObjectOutputStream out;
 	public String sid; // Session Id
 
-	public ObjectSocket(Socket socket) {
+	public ObjectSocket(Socket socket) throws Exception {
 		this.socket = socket;
 		this.sid = "";
 		try {
 			this.out = new ObjectOutputStream(socket.getOutputStream());
 			this.in = new ObjectInputStream(socket.getInputStream());
 		} catch (Exception e) {
-			System.out.println(e);
+			throw new Exception("Error initializing ObjectSocket", e);
 		}
 	}
 
+	// metodo para cerrar los flujos y el socket
+	public void close() {
+		try {
+			if (out != null) out.close();
+			if (in != null) in.close();
+			if (socket != null && !socket.isClosed()) socket.close();
+		} catch (Exception e) {
+			// Log the exception or handle it appropriately
+			System.out.println("Error closing ObjectSocket: " + e.getMessage());
+		}
+	}
 }
