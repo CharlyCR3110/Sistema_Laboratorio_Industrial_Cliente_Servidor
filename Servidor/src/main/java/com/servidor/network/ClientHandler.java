@@ -19,13 +19,12 @@ import java.util.Map;
 public class ClientHandler {
 	private Server server;
 	private final CommandManager commandManager;
-	private ObjectSocket objectSocketSync;
-	private ObjectSocket objectSocketAsync;
+	public ObjectSocket objectSocketSync;
+	public ObjectSocket objectSocketAsync;
 
-	public ClientHandler(Server server, ObjectSocket objectSocketSync, ObjectSocket objectSocketAsync) {
+	public ClientHandler(Server server, ObjectSocket objectSocketSync) {
 		this.server = server;
 		this.objectSocketSync = objectSocketSync;
-		this.objectSocketAsync = objectSocketAsync;
 		this.commandManager = new CommandManager();
 	}
 
@@ -84,10 +83,10 @@ public class ClientHandler {
 				objectSocketSync.out.flush();
 
 				// Si el comando se relaciona con una modificación, enviar una notificación a los clientes
-				if (commandName.contains("MODIFICAR") || commandName.contains("ELIMINAR") || commandName.contains("GUARDAR")) {
-					MensajeAsincrono mensajeAsincrono = new MensajeAsincrono(commandName, "Se ha modificado un elemento");
-					server.deliver(mensajeAsincrono);
-				}
+//				if (commandName.contains("MODIFICAR") || commandName.contains("ELIMINAR") || commandName.contains("GUARDAR")) {
+//					MensajeAsincrono mensajeAsincrono = new MensajeAsincrono(commandName, "Se ha modificado un elemento");
+//					server.deliver(mensajeAsincrono);
+//				}
 			}
 		} catch (EOFException e) {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
