@@ -1,40 +1,59 @@
 package com.servidor.network;
 
+import com.compartidos.elementosCompartidos.ObjectSocket;
+
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Server {
-	private static Map<Thread, ObjectOutputStream> clientStreams = new HashMap<>();
+	ServerSocket serverSocket;
+	List<ClientHandler> workers;
+	private final int PORT = 12345;
+	public Server() {
+		try {
+			serverSocket = new ServerSocket(PORT);
+			workers = Collections.synchronizedList(new ArrayList<ClientHandler>());
+			System.out.println("Servidor iniciado...");
+		} catch (IOException ex) {
+			System.out.println(ex);
+		}
+	}
+
+
+	public void run() {
+		boolean continuar = true;
+		ObjectSocket objectSocketSync = null;
+		Socket socket = null;
+		while (continuar) {
+			try {
+				socket = serverSocket.accept();
+				objectSocketSync = new ObjectSocket(socket);
+				System.out.println("Conexion Establecida...");
+				ClientHandler worker = new ClientHandler(this, objectSocketSync);
+				workers.add(worker);
+				System.out.println("Quedan: " + workers.size());
+				worker.start();
+			} catch (Exception ex) {
+				System.out.println(ex);
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Hello world from Server!");
-		int port = 12345;
+		Server server = new Server();
+		server.run();
 
-		try (ServerSocket serverSocket = new ServerSocket(port)) {
-			System.out.println("Server is listening on port " + port);
-			while (true) {
-				System.out.println("Clientes conectados: " + clientStreams.size());
-				// Espera a que llegue una conexión entrante
-				Socket socket = serverSocket.accept();
-				System.out.println("Cliente conectado desde " + socket.getInetAddress());
+	}
 
-				// Crea una nueva instancia de ClientHandler para manejar la conexión del cliente
-				ClientHandler clientHandler = new ClientHandler(socket, clientStreams);
+	public String listaWorkersSize() {
+		return String.valueOf(workers.size());
+	}
 
-				// Inicia un nuevo hilo para manejar la conexión del cliente
-				Thread thread = new Thread(clientHandler);
-				thread.start();
-
-				// Agrega el hilo a la lista de hilos
-				clientStreams.put(thread, clientHandler.getOutputSteam());
-			}
-		} catch (Exception e) {
-			System.out.println("Server exception: " + e.getMessage());
-			e.printStackTrace();
-		}
+	public void remove(ClientHandler clientHandler) {
+		workers.remove(clientHandler);
 	}
 }
