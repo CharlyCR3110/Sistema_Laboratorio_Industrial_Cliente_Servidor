@@ -83,10 +83,10 @@ public class ClientHandler {
 				objectSocketSync.out.flush();
 
 				// Si el comando se relaciona con una modificación, enviar una notificación a los clientes
-//				if (commandName.contains("MODIFICAR") || commandName.contains("ELIMINAR") || commandName.contains("GUARDAR")) {
-//					MensajeAsincrono mensajeAsincrono = new MensajeAsincrono(commandName, "Se ha modificado un elemento");
-//					server.deliver(mensajeAsincrono);
-//				}
+				if (commandName.contains("MODIFICAR") || commandName.contains("ELIMINAR") || commandName.contains("GUARDAR")) {
+					MensajeAsincrono mensajeAsincrono = new MensajeAsincrono(commandName, "Se ha modificado un elemento");
+					server.deliver(mensajeAsincrono);
+				}
 			}
 		} catch (EOFException e) {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
@@ -106,7 +106,12 @@ public class ClientHandler {
 
 
 	public void deliver(MensajeAsincrono message) {
+		if (objectSocketAsync == null) {
+			System.out.println("No hay clientes asincronos");
+			return;
+		}
 		try {
+			objectSocketAsync.out.writeInt(777);	// DELIVER CODE
 			objectSocketAsync.out.writeObject(message);
 			objectSocketAsync.out.flush();
 		} catch (Exception e) {
