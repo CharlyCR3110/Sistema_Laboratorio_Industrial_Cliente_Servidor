@@ -63,7 +63,7 @@ public class Controller {
 	}
 
 	// metodo utilizado para ponear el elemento seleccionado de la lista en el current
-	public void edit(int row) {
+	public void setCurrent(int row) {
 		// Obtener el elemento seleccionado de la lista
 		TipoInstrumento e = model.getList().get(row);
 		try {
