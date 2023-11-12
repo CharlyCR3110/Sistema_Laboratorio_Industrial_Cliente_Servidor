@@ -8,13 +8,10 @@ import com.compartidos.elementosCompartidos.Protocol;
 public class ServiceMedicion {
 	private final ClienteServidorHandler clienteServidorHandler = ClienteServidorHandler.instance();
 	private static ServiceMedicion theInstance;
-	public static ServiceMedicion instance(){
-		if (theInstance == null) theInstance = new ServiceMedicion();
-		return theInstance;
-	}
 	private ServiceMedicion(){
 	}
 	public static ServiceMedicion getInstance() {
+		if (theInstance == null) theInstance = new ServiceMedicion();
 		return theInstance;
 	}
 
