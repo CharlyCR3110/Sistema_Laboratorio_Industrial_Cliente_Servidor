@@ -1,6 +1,7 @@
 import com.cliente.instrumentos.presentation.notificaciones.Controller;
 import com.cliente.instrumentos.logic.Mediator;
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
+import com.compartidos.elementosCompartidos.Protocol;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -134,7 +135,7 @@ public class Application {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				try {
-					clienteServidorHandler.enviarComandoAlServidor("close", null);
+					clienteServidorHandler.enviarComandoAlServidor(Protocol.CLOSE, null);
 					System.out.println("Cerrando conexión con el servidor");
 				} catch (Exception ex) {
 					ex.printStackTrace();

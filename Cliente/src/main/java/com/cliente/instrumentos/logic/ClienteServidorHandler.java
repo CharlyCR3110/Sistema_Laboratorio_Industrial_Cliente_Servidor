@@ -76,7 +76,7 @@ public class ClienteServidorHandler implements IListener {
 	// Método para enviar comandos al servidor y recibir respuestas
 	public synchronized Object enviarComandoAlServidor(String commandName, Object datos) {
 		try {
-			if (commandName.equals("close")) {
+			if (commandName.equals(Protocol.CLOSE)) {
 				cerrarConexion();
 				return null;
 			}
