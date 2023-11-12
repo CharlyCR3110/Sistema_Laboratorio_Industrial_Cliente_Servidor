@@ -121,7 +121,11 @@ public class Application {
 	}
 
 	private static void setupWindow() {
-		window.setSize(1280, 720);
+		// Obtén el tamaño de la pantalla
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		// Establece el tamaño del frame igual al tamaño de la pantalla
+		window.setSize(screenSize.width, screenSize.height);
 		window.setResizable(true);
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.setIconImage(new ImageIcon(Objects.requireNonNull(Application.class.getResource("icon.png"))).getImage());
