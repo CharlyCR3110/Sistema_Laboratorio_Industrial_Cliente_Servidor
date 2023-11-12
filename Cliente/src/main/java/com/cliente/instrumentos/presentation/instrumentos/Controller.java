@@ -76,7 +76,7 @@ public class Controller {
 	 * 
 	 * @param row
 	 */
-	public void edit(int row) {
+	public void setCurrent(int row) {
 		// Se obtiene el instrumento seleccionado
 		Instrumento e = model.getList().get(row);
 		try {
