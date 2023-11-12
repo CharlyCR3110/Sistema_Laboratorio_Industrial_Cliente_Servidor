@@ -1,3 +1,4 @@
+import com.cliente.instrumentos.presentation.notificaciones.Controller;
 import com.compartidos.elementosCompartidos.Instrumento;
 import com.cliente.instrumentos.logic.Mediator;
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
@@ -17,7 +18,7 @@ public class Application {
 	private static com.cliente.instrumentos.presentation.tipos.Controller tiposController;
 	private static com.cliente.instrumentos.presentation.instrumentos.Controller instrumentosController;
 	private static com.cliente.instrumentos.presentation.calibraciones.Controller calibracionesController;
-	private static com.cliente.instrumentos.presentation.notificaciones.NotificacionesController notificacionesController;
+	private static Controller notificacionesController;
 
 	private final static ClienteServidorHandler clienteServidorHandler = ClienteServidorHandler.instance();
 	private static Mediator mediator;
@@ -25,8 +26,8 @@ public class Application {
 	public static void main(String[] args) {
 		setLookAndFeel();
 
-		initializeComponents();
 		setupControllers();
+		initializeComponents();
 		setupTabs();
 		setupWindow();
 		addTabChangeListeners();
@@ -48,9 +49,9 @@ public class Application {
 		window.add(tabbedPane, BorderLayout.CENTER);
 
 
-		JPanel mensajes = new com.cliente.instrumentos.presentation.notificaciones.View().getPanel();
-		mensajes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		mensajes.setBounds(770, 10, 300, 400);
+		JPanel mensajes = notificacionesController.getView().getPanel();
+		mensajes.setBorder(BorderFactory.createTitledBorder("Mensajes"));
+		mensajes.setMaximumSize(new Dimension(200, Integer.MAX_VALUE)); // Establecer altura máxima
 
 		window.add(mensajes, BorderLayout.EAST);
 	}
@@ -71,18 +72,19 @@ public class Application {
 				new com.cliente.instrumentos.presentation.calibraciones.Model()
 		);
 
-		notificacionesController = new com.cliente.instrumentos.presentation.notificaciones.NotificacionesController(
-				new com.cliente.instrumentos.presentation.notificaciones.View()
+		notificacionesController = new Controller(
+				new com.cliente.instrumentos.presentation.notificaciones.View(),
+				new com.cliente.instrumentos.presentation.notificaciones.Model()
 		);
 
 		mediator = new Mediator(instrumentosController, calibracionesController);
 	}
 
 	private static void setupTabs() {
+		tabbedPane.setBorder(BorderFactory.createTitledBorder("Mantenimientos"));
 		tabbedPane.addTab("Tipos de Instrumento", tiposController.getView().getPanel());
 		tabbedPane.addTab("Instrumentos", instrumentosController.getView().getPanel());
 		tabbedPane.addTab("Calibraciones", calibracionesController.getView().getPanel());
-//		tabbedPane.addTab("Notificaciones", notificacionesController.getView().getPanel());
 		tabbedPane.addTab("Acerca de", new com.cliente.instrumentos.presentation.acercaDe.View().getPanel());
 	}
 
@@ -120,7 +122,7 @@ public class Application {
 	}
 
 	private static void setupWindow() {
-		window.setSize(900, 400);
+		window.setSize(1280, 720);
 		window.setResizable(true);
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.setIconImage(new ImageIcon(Objects.requireNonNull(Application.class.getResource("icon.png"))).getImage());
