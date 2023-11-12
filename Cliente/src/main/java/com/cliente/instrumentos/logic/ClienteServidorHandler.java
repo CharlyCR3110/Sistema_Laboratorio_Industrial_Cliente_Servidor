@@ -7,8 +7,6 @@ import com.compartidos.elementosCompartidos.ObjectSocket;
 import com.compartidos.elementosCompartidos.Protocol;
 
 import javax.swing.*;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 

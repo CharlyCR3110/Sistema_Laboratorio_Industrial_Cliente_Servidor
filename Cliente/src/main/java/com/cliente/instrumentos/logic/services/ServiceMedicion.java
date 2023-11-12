@@ -1,7 +1,6 @@
 package com.cliente.instrumentos.logic.services;
 
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
-import com.compartidos.elementosCompartidos.Calibracion;
 import com.compartidos.elementosCompartidos.Medicion;
 import com.compartidos.elementosCompartidos.Protocol;
 

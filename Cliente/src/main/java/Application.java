@@ -1,5 +1,4 @@
 import com.cliente.instrumentos.presentation.notificaciones.Controller;
-import com.compartidos.elementosCompartidos.Instrumento;
 import com.cliente.instrumentos.logic.Mediator;
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
 
@@ -14,7 +13,6 @@ import java.util.Objects;
 public class Application {
 	private static JFrame window;
 	private static JTabbedPane tabbedPane;
-	private static Instrumento instrumentoSeleccionado; // Se usa en la ventana de calibraciones
 	private static com.cliente.instrumentos.presentation.tipos.Controller tiposController;
 	private static com.cliente.instrumentos.presentation.instrumentos.Controller instrumentosController;
 	private static com.cliente.instrumentos.presentation.calibraciones.Controller calibracionesController;
