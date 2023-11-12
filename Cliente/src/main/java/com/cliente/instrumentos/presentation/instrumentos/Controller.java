@@ -84,8 +84,6 @@ public class Controller {
 			Instrumento current = serviceInstrumento.obtener(e);
 			// Se actualiza el modelo
 			setListCurrentAndCommit(null, current);
-			// actualizarlo
-			serviceInstrumento.modificar(current);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
