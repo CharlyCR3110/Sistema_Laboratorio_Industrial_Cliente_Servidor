@@ -62,6 +62,7 @@ public class Controller {
 		}
 	}
 
+	// metodo utilizado para ponear el elemento seleccionado de la lista en el current
 	public void edit(int row) {
 		// Obtener el elemento seleccionado de la lista
 		TipoInstrumento e = model.getList().get(row);
@@ -69,8 +70,6 @@ public class Controller {
 			// Lee el elemento desde la base de datos
 			TipoInstrumento current = serviceTipoInstrumento.obtener(e);
 			setListCurrentAndCommit(null, current);
-			// actualizarlo en la base de datos
-			serviceTipoInstrumento.modificar(current);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
