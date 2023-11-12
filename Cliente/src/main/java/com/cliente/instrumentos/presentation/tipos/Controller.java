@@ -1,6 +1,7 @@
 package com.cliente.instrumentos.presentation.tipos;
 
 import com.cliente.instrumentos.logic.services.ServiceTipoInstrumento;
+import com.cliente.utiles.ReportGenerator;
 import com.compartidos.elementosCompartidos.TipoInstrumento;
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
 //import com.cliente.utiles.ReportGenerator;
@@ -146,8 +147,8 @@ public class Controller {
 	}
 
 	public void generateReport() {
-		String filePath = "src/main/java/una/reportes/tipos_instrumentos.pdf";
-//		ReportGenerator.generateTypesOfInstrumentsReport(model, filePath);
+		String filePath = "src/main/java/com/cliente/reportes/tipos_instrumentos.pdf";
+		ReportGenerator.generateTypesOfInstrumentsReport(model, filePath);
 		view.showMessage("Reporte generado exitosamente en: " + filePath);
 	}
 
