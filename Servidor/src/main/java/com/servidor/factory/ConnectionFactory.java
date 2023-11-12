@@ -30,8 +30,6 @@ public class ConnectionFactory {
 			comboPooledDataSource.setMaxPoolSize(Integer.parseInt(maxPoolSize));
 			this.dataSource = comboPooledDataSource;
 		} catch (Exception e) {
-			System.err.println("FALLÓ CONEXION A BASE DE DATOS");
-			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
 	}

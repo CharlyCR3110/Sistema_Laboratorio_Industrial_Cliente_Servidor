@@ -1,5 +1,6 @@
 package com.servidor.commandPattern;
 
+import com.compartidos.elementosCompartidos.Protocol;
 import com.servidor.commandPattern.Medicion.ModificarMedicionCommand;
 import com.servidor.commandPattern.TipoInstumento.*;
 import com.servidor.commandPattern.Instrumento.*;
@@ -36,33 +37,32 @@ public class CommandManager {
 	public CommandManager() {
 		commandMap = new HashMap<>();
 
-		commandMap.put("GUARDAR_TIPO_INSTRUMENTO", guardarTipoInstrumentoCommand);
-		commandMap.put("ELIMINAR_TIPO_INSTRUMENTO", eliminarTipoInstrumentoCommand);
-		commandMap.put("LISTAR_TIPO_INSTRUMENTO", listarTipoInstrumentoCommand);
-		commandMap.put("MODIFICAR_TIPO_INSTRUMENTO", modificarTipoInstrumentoCommand);
-		commandMap.put("OBTENER_TIPO_INSTRUMENTO", obtenerTipoInstrumentoCommand);
+		// TipoInstrumento commands
+		commandMap.put(Protocol.GUARDAR_TIPO_INSTRUMENTO, guardarTipoInstrumentoCommand);
+		commandMap.put(Protocol.ELIMINAR_TIPO_INSTRUMENTO, eliminarTipoInstrumentoCommand);
+		commandMap.put(Protocol.LISTAR_TIPO_INSTRUMENTO, listarTipoInstrumentoCommand);
+		commandMap.put(Protocol.MODIFICAR_TIPO_INSTRUMENTO, modificarTipoInstrumentoCommand);
+		commandMap.put(Protocol.OBTENER_TIPO_INSTRUMENTO, obtenerTipoInstrumentoCommand);
 
-		commandMap.put("GUARDAR_INSTRUMENTO", guardarInstrumentoCommand);
-		commandMap.put("ELIMINAR_INSTRUMENTO", eliminarInstrumentoCommand);
-		commandMap.put("LISTAR_INSTRUMENTO", listarInstrumentoCommand);
-		commandMap.put("MODIFICAR_INSTRUMENTO", modificarInstrumentoCommand);
-		commandMap.put("OBTENER_INSTRUMENTO", obtenerInstrumentoCommand);
+		// Instrumento commands
+		commandMap.put(Protocol.GUARDAR_INSTRUMENTO, guardarInstrumentoCommand);
+		commandMap.put(Protocol.ELIMINAR_INSTRUMENTO, eliminarInstrumentoCommand);
+		commandMap.put(Protocol.LISTAR_INSTRUMENTO, listarInstrumentoCommand);
+		commandMap.put(Protocol.MODIFICAR_INSTRUMENTO, modificarInstrumentoCommand);
+		commandMap.put(Protocol.OBTENER_INSTRUMENTO, obtenerInstrumentoCommand);
 
-		commandMap.put("GUARDAR_CALIBRACION", guardarCalibracionCommand);
-		commandMap.put("ELIMINAR_CALIBRACION", eliminarCalibracionCommand);
-		commandMap.put("LISTAR_CALIBRACION", listarCalibracionCommand);
-		commandMap.put("MODIFICAR_CALIBRACION", modificarCalibracionCommand);
-		commandMap.put("OBTENER_CALIBRACION", obtenerCalibracionCommand);
+		// Calibracion commands
+		commandMap.put(Protocol.GUARDAR_CALIBRACION, guardarCalibracionCommand);
+		commandMap.put(Protocol.ELIMINAR_CALIBRACION, eliminarCalibracionCommand);
+		commandMap.put(Protocol.LISTAR_CALIBRACION, listarCalibracionCommand);
+		commandMap.put(Protocol.MODIFICAR_CALIBRACION, modificarCalibracionCommand);
+		commandMap.put(Protocol.OBTENER_CALIBRACION, obtenerCalibracionCommand);
 
-		commandMap.put("MODIFICAR_MEDICION", modificarMedicionCommand);
-
-		//DEBUG
-		System.out.println("CommandManager: initialized");
+		// Modificar Medicion command
+		commandMap.put(Protocol.MODIFICAR_MEDICION, modificarMedicionCommand);
 	}
 
 	public Command<?> getCommand(String commandName) {
-		//DEBUG
-		System.out.println("CommandManager: getCommand(" + commandName + ")");
 		return commandMap.get(commandName);
 	}
 }

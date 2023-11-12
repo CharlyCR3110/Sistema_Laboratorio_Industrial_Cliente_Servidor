@@ -46,8 +46,6 @@ public class ReportGenerator {
 
 			document.add(table);
 			document.close();
-
-			System.out.println("Reporte generado exitosamente en: " + filePath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

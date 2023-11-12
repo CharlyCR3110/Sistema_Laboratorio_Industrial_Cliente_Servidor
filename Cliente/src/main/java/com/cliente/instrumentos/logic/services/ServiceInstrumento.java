@@ -2,6 +2,7 @@ package com.cliente.instrumentos.logic.services;
 
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
 import com.compartidos.elementosCompartidos.Instrumento;
+import com.compartidos.elementosCompartidos.Protocol;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ServiceInstrumento {
 
 	public int guardar(Instrumento Instrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(GUARDAR_INSTRUMENTO, Instrumento);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.GUARDAR_INSTRUMENTO, Instrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -32,7 +33,7 @@ public class ServiceInstrumento {
 
 	public int eliminar(Instrumento instrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(ELIMINAR_INSTRUMENTO, instrumento);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.ELIMINAR_INSTRUMENTO, instrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -43,7 +44,7 @@ public class ServiceInstrumento {
 
 	public int modificar(Instrumento instrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(MODIFICAR_INSTRUMENTO, instrumento);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.MODIFICAR_INSTRUMENTO, instrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -55,7 +56,7 @@ public class ServiceInstrumento {
 	public List<Instrumento> listar(Instrumento filter) {
 		Object returnObject;
 		try {
-			returnObject = ClienteServidorHandler.enviarComandoAlServidor(LISTAR_INSTRUMENTO, filter);
+			returnObject = clienteServidorHandler.enviarComandoAlServidor(Protocol.LISTAR_INSTRUMENTO, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
@@ -76,19 +77,11 @@ public class ServiceInstrumento {
 
 	public Instrumento obtener(Instrumento instrumento) {
 		try {
-			return (Instrumento) ClienteServidorHandler.enviarComandoAlServidor(OBTENER_INSTRUMENTO, instrumento);
+			return (Instrumento) clienteServidorHandler.enviarComandoAlServidor(Protocol.OBTENER_INSTRUMENTO, instrumento);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.obtener: " + e.getMessage());
 		}
 	}
-
-
-	// constantes para los comandos
-	private static final String GUARDAR_INSTRUMENTO = "GUARDAR_INSTRUMENTO";
-	private static final String ELIMINAR_INSTRUMENTO = "ELIMINAR_INSTRUMENTO";
-	private static final String LISTAR_INSTRUMENTO = "LISTAR_INSTRUMENTO";
-	private static final String MODIFICAR_INSTRUMENTO = "MODIFICAR_INSTRUMENTO";
-	private static final String OBTENER_INSTRUMENTO = "OBTENER_INSTRUMENTO";
 }

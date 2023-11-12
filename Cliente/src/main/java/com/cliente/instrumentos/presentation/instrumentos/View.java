@@ -55,7 +55,7 @@ public class View implements Observer {
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.edit(list.getSelectedRow());
+				controller.setCurrent(list.getSelectedRow());
 			}
 		});
 		clear.addMouseListener(new MouseAdapter() {

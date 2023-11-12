@@ -1,6 +1,7 @@
 package com.cliente.instrumentos.presentation.tipos;
 
 import com.cliente.instrumentos.logic.services.ServiceTipoInstrumento;
+import com.cliente.utiles.ReportGenerator;
 import com.compartidos.elementosCompartidos.TipoInstrumento;
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
 //import com.cliente.utiles.ReportGenerator;
@@ -62,15 +63,14 @@ public class Controller {
 		}
 	}
 
-	public void edit(int row) {
+	// metodo utilizado para ponear el elemento seleccionado de la lista en el current
+	public void setCurrent(int row) {
 		// Obtener el elemento seleccionado de la lista
 		TipoInstrumento e = model.getList().get(row);
 		try {
 			// Lee el elemento desde la base de datos
 			TipoInstrumento current = serviceTipoInstrumento.obtener(e);
 			setListCurrentAndCommit(null, current);
-			// actualizarlo en la base de datos
-			serviceTipoInstrumento.modificar(current);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -147,8 +147,8 @@ public class Controller {
 	}
 
 	public void generateReport() {
-		String filePath = "src/main/java/una/reportes/tipos_instrumentos.pdf";
-//		ReportGenerator.generateTypesOfInstrumentsReport(model, filePath);
+		String filePath = "src/main/java/com/cliente/reportes/tipos_instrumentos.pdf";
+		ReportGenerator.generateTypesOfInstrumentsReport(model, filePath);
 		view.showMessage("Reporte generado exitosamente en: " + filePath);
 	}
 

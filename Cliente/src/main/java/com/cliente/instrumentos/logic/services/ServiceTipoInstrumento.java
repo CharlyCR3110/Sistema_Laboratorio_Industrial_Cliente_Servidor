@@ -1,6 +1,7 @@
 package com.cliente.instrumentos.logic.services;
 
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
+import com.compartidos.elementosCompartidos.Protocol;
 import com.compartidos.elementosCompartidos.TipoInstrumento;
 
 import java.util.Collections;
@@ -21,7 +22,7 @@ public class ServiceTipoInstrumento {
 
 	public int guardar(TipoInstrumento tipoInstrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(GUARDAR_TIPO_INSTRUMENTO, tipoInstrumento);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.GUARDAR_TIPO_INSTRUMENTO, tipoInstrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -32,7 +33,7 @@ public class ServiceTipoInstrumento {
 
 	public int eliminar(TipoInstrumento tipoInstrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(ELIMINAR_TIPO_INSTRUMENTO, tipoInstrumento);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.ELIMINAR_TIPO_INSTRUMENTO, tipoInstrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -43,7 +44,7 @@ public class ServiceTipoInstrumento {
 
 	public int modificar(TipoInstrumento tipoInstrumento) {
 		try {
-			ClienteServidorHandler.enviarComandoAlServidor(MODIFICAR_TIPO_INSTRUMENTO, tipoInstrumento);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.MODIFICAR_TIPO_INSTRUMENTO, tipoInstrumento);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -55,7 +56,7 @@ public class ServiceTipoInstrumento {
 	public List<TipoInstrumento> listar(TipoInstrumento filter) {
 		Object returnObject;
 		try {
-			returnObject = ClienteServidorHandler.enviarComandoAlServidor(LISTAR_TIPO_INSTRUMENTO, filter);
+			returnObject = clienteServidorHandler.enviarComandoAlServidor(Protocol.LISTAR_TIPO_INSTRUMENTO, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
@@ -76,7 +77,7 @@ public class ServiceTipoInstrumento {
 
 		public TipoInstrumento obtener(TipoInstrumento tipoInstrumento) {
 		try {
-			return (TipoInstrumento) ClienteServidorHandler.enviarComandoAlServidor(OBTENER_TIPO_INSTRUMENTO, tipoInstrumento);
+			return (TipoInstrumento) clienteServidorHandler.enviarComandoAlServidor(Protocol.OBTENER_TIPO_INSTRUMENTO, tipoInstrumento);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
@@ -91,14 +92,4 @@ public class ServiceTipoInstrumento {
 		}
 		return null;
 	}
-
-
-
-
-	// constantes para los comandos
-	private static final String GUARDAR_TIPO_INSTRUMENTO = "GUARDAR_TIPO_INSTRUMENTO";
-	private static final String ELIMINAR_TIPO_INSTRUMENTO = "ELIMINAR_TIPO_INSTRUMENTO";
-	private static final String LISTAR_TIPO_INSTRUMENTO = "LISTAR_TIPO_INSTRUMENTO";
-	private static final String MODIFICAR_TIPO_INSTRUMENTO = "MODIFICAR_TIPO_INSTRUMENTO";
-	private static final String OBTENER_TIPO_INSTRUMENTO = "OBTENER_TIPO_INSTRUMENTO";
 }
