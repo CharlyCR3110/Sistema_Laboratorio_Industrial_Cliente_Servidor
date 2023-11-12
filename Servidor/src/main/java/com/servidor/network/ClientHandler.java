@@ -9,13 +9,6 @@ import com.servidor.utils.MensajeCreator;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 //TODO mejorar el manejo de errores
 public class ClientHandler {
