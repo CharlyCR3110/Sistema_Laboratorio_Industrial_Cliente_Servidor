@@ -10,7 +10,6 @@ import com.servidor.utils.MensajeCreator;
 import java.io.EOFException;
 import java.io.IOException;
 
-//TODO mejorar el manejo de errores
 public class ClientHandler {
 	private Server server;
 	private final CommandManager commandManager;
