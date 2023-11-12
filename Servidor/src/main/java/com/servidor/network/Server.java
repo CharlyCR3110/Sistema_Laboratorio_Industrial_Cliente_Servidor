@@ -2,6 +2,7 @@ package com.servidor.network;
 
 import com.compartidos.elementosCompartidos.MensajeAsincrono;
 import com.compartidos.elementosCompartidos.ObjectSocket;
+import com.compartidos.elementosCompartidos.Protocol;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -11,10 +12,9 @@ import java.util.*;
 public class Server {
 	ServerSocket serverSocket;
 	List<ClientHandler> workers;
-	private final int PORT = 12345;
 	public Server() {
 		try {
-			serverSocket = new ServerSocket(PORT);
+			serverSocket = new ServerSocket(Protocol.PORT);
 			workers = Collections.synchronizedList(new ArrayList<ClientHandler>());
 			System.out.println("Servidor iniciado...");
 		} catch (IOException ex) {
@@ -34,9 +34,9 @@ public class Server {
 				socket = serverSocket.accept();
 				objectSocketSync = new ObjectSocket(socket);
 				System.out.println("Conexion Establecida...");
-				int type = objectSocketSync.in.readInt();	// 1: Sincrono, 2: Asincrono
+				int type = objectSocketSync.in.readInt();	// 10: Sincrono, 11: Asincrono
 				switch (type) {
-					case 1:
+					case Protocol.SYNC:
 						sid = socket.getRemoteSocketAddress().toString();
 						objectSocketSync.sid = sid;
 						System.out.println("SYNCH: " + objectSocketSync.sid);
@@ -44,8 +44,9 @@ public class Server {
 						workers.add(clientHandler);
 						System.out.println("Quedan: " + workers.size());
 						objectSocketSync.out.writeObject(objectSocketSync.sid);
+						clientHandler.start();
 						break;
-					case 2:
+					case Protocol.ASYNC:
 						System.out.println("ASYNCH");
 						sid = (String) objectSocketSync.in.readObject();
 						objectSocketSync.sid = sid;
@@ -54,7 +55,6 @@ public class Server {
 						break;
 				}
 				objectSocketSync.out.flush();
-				clientHandler.start();
 			} catch (Exception ex) {
 				System.out.println(ex);
 			}
@@ -66,6 +66,9 @@ public class Server {
 		for (ClientHandler w : workers) {
 			if (w.objectSocketSync.sid.equals(objectSocketAsync.sid)) {
 				w.objectSocketAsync = objectSocketAsync;
+				System.out.println("JOIN: " + w.objectSocketAsync.sid);
+				System.out.println("Son los out iguales: " + (w.objectSocketSync.out == w.objectSocketAsync.out));
+				System.out.println("Son los in iguales: " + (w.objectSocketSync.in == w.objectSocketAsync.in));
 				break;
 			}
 		}
