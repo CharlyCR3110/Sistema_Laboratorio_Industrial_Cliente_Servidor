@@ -5,6 +5,7 @@ import com.compartidos.elementosCompartidos.ObjectSocket;
 import com.compartidos.elementosCompartidos.Protocol;
 import com.servidor.commandPattern.Command;
 import com.servidor.commandPattern.CommandManager;
+import com.servidor.utils.MensajeCreator;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -115,7 +116,7 @@ public class ClientHandler {
 
 				// Si el comando se relaciona con una modificación, enviar una notificación a los clientes
 				if (commandName.contains("MODIFICAR") || commandName.contains("ELIMINAR") || commandName.contains("GUARDAR")) {
-					MensajeAsincrono mensajeAsincrono = new MensajeAsincrono(commandName, "Se ha modificado un elemento");
+					MensajeAsincrono mensajeAsincrono = MensajeCreator.formatearMensaje(commandName, datos);
 					server.deliver(mensajeAsincrono);
 				}
 			}
