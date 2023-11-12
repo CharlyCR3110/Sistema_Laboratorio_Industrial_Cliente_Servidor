@@ -2,6 +2,7 @@ package com.servidor.network;
 
 import com.compartidos.elementosCompartidos.MensajeAsincrono;
 import com.compartidos.elementosCompartidos.ObjectSocket;
+import com.compartidos.elementosCompartidos.Protocol;
 import com.servidor.commandPattern.Command;
 import com.servidor.commandPattern.CommandManager;
 
@@ -46,7 +47,23 @@ public class ClientHandler {
 		try {
 			while (continuar) {
 				System.out.println("Clientes conectados: " + server.listaWorkersSize());    // DEBUG
+
+				if (objectSocketSync == null) {
+					System.out.println("No hay clientes sincronos");
+					return;
+				}
+				System.out.println("SID: " + objectSocketSync.sid);    // DEBUG
+				System.out.println("Esperando comando");
+				System.out.println("Momento exacto de inicio: " + System.currentTimeMillis() + "ms");// DEBUG
+
 				// Leer el comando y el objeto
+				int protocolCode = objectSocketSync.in.readInt();
+
+				if (protocolCode == Protocol.NORMAL) {
+					System.out.println("NORMAL");
+				}
+
+
 				String commandName = (String) objectSocketSync.in.readObject();
 				Object datos = objectSocketSync.in.readObject();
 
@@ -125,9 +142,10 @@ public class ClientHandler {
 			return;
 		}
 		try {
-			objectSocketAsync.out.writeInt(777);	// DELIVER CODE
+			objectSocketAsync.out.writeInt(Protocol.DELIVER);	// DELIVER CODE
 			objectSocketAsync.out.writeObject(message);
 			objectSocketAsync.out.flush();
+			System.out.println("Mensaje enviado");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
