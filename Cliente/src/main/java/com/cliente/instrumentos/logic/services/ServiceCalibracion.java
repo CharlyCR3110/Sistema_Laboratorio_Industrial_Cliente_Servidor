@@ -2,6 +2,7 @@ package com.cliente.instrumentos.logic.services;
 
 import com.cliente.instrumentos.logic.ClienteServidorHandler;
 import com.compartidos.elementosCompartidos.Calibracion;
+import com.compartidos.elementosCompartidos.Protocol;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ServiceCalibracion {
 
 	public int guardar(Calibracion calibracion) {
 		try {
-			clienteServidorHandler.enviarComandoAlServidor(GUARDAR_CALIBRACION, calibracion);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.GUARDAR_CALIBRACION, calibracion);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -32,7 +33,7 @@ public class ServiceCalibracion {
 
 	public int eliminar(Calibracion calibracion) {
 		try {
-			clienteServidorHandler.enviarComandoAlServidor(ELIMINAR_CALIBRACION, calibracion);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.ELIMINAR_CALIBRACION, calibracion);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -43,7 +44,7 @@ public class ServiceCalibracion {
 
 	public int modificar(Calibracion calibracion) {
 		try {
-			clienteServidorHandler.enviarComandoAlServidor(MODIFICAR_CALIBRACION, calibracion);
+			clienteServidorHandler.enviarComandoAlServidor(Protocol.MODIFICAR_CALIBRACION, calibracion);
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
@@ -55,7 +56,7 @@ public class ServiceCalibracion {
 	public List<Calibracion> listar(Calibracion filter) {
 		Object returnObject;
 		try {
-			returnObject = clienteServidorHandler.enviarComandoAlServidor(LISTAR_CALIBRACION, filter);
+			returnObject = clienteServidorHandler.enviarComandoAlServidor(Protocol.LISTAR_CALIBRACION, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
@@ -76,19 +77,11 @@ public class ServiceCalibracion {
 
 	public Calibracion obtener(Calibracion calibracion) {
 		try {
-			return (Calibracion) clienteServidorHandler.enviarComandoAlServidor(OBTENER_CALIBRACION, calibracion);
+			return (Calibracion) clienteServidorHandler.enviarComandoAlServidor(Protocol.OBTENER_CALIBRACION, calibracion);
 		} catch (Exception e) {
 			// Manejar errores aquí
 			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.obtener: " + e.getMessage());
 		}
 	}
-
-
-	// constantes para los comandos	(no hay motivo real para que sean static)
-	private static final String GUARDAR_CALIBRACION = "GUARDAR_CALIBRACION";
-	private static final String ELIMINAR_CALIBRACION = "ELIMINAR_CALIBRACION";
-	private static final String LISTAR_CALIBRACION = "LISTAR_CALIBRACION";
-	private static final String MODIFICAR_CALIBRACION = "MODIFICAR_CALIBRACION";
-	private static final String OBTENER_CALIBRACION = "OBTENER_CALIBRACION";
 }
