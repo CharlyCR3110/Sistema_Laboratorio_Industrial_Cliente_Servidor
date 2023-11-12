@@ -55,9 +55,7 @@ public class ClientHandler {
 
 				String commandName = (String) objectSocketSync.in.readObject();
 				Object datos = objectSocketSync.in.readObject();
-
-				System.out.println("Comando recibido: " + commandName);// DEBUG
-
+				
 				// obtener el comando
 				Command<?> command = commandManager.getCommand(commandName);
 				if (command == null) {
