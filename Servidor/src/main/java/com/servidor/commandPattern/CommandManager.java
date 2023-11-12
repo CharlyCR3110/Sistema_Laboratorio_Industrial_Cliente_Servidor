@@ -60,14 +60,9 @@ public class CommandManager {
 
 		// Modificar Medicion command
 		commandMap.put(Protocol.MODIFICAR_MEDICION, modificarMedicionCommand);
-
-		// DEBUG
-		System.out.println("CommandManager: initialized");
 	}
 
 	public Command<?> getCommand(String commandName) {
-		//DEBUG
-		System.out.println("CommandManager: getCommand(" + commandName + ")");
 		return commandMap.get(commandName);
 	}
 }

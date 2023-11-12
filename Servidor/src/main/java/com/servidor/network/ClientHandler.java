@@ -32,7 +32,6 @@ public class ClientHandler {
 
 	public void start() {
 		try {
-			System.out.println("Worker atendiendo peticiones...");
 			Thread t = new Thread(new Runnable(){
 				public void run(){
 					listen();
@@ -47,23 +46,12 @@ public class ClientHandler {
 	public void listen() {
 		try {
 			while (continuar) {
-				System.out.println("Clientes conectados: " + server.listaWorkersSize());    // DEBUG
-
 				if (objectSocketSync == null) {
-					System.out.println("No hay clientes sincronos");
 					return;
 				}
-				System.out.println("SID: " + objectSocketSync.sid);    // DEBUG
-				System.out.println("Esperando comando");
-				System.out.println("Momento exacto de inicio: " + System.currentTimeMillis() + "ms");// DEBUG
 
 				// Leer el comando y el objeto
 				int protocolCode = objectSocketSync.in.readInt();
-
-				if (protocolCode == Protocol.NORMAL) {
-					System.out.println("NORMAL");
-				}
-
 
 				String commandName = (String) objectSocketSync.in.readObject();
 				Object datos = objectSocketSync.in.readObject();
@@ -76,17 +64,14 @@ public class ClientHandler {
 					objectSocketSync.out.flush();
 					throw new RuntimeException("Comando no encontrado");
 				}
-				System.out.println("Comando obtenido: " + commandName);
 
 				// Configura los datos del comando con los datos del cliente
 				if (datos == null) {
-					System.out.println("Datos nulos");
 					objectSocketSync.out.writeObject(-1);
 					objectSocketSync.out.writeObject("Datos no encontrados");
 					objectSocketSync.out.flush();
 				}
 
-				System.out.println("DATO NO NULO");
 				command.setDatos(datos);
 
 				// ejecutar el comando
@@ -125,7 +110,6 @@ public class ClientHandler {
 			// eliminar el cliente de la lista de clientes
 			server.remove(this);
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Error en el clienteHandler: " + e.getMessage());    // DEBUG
 			e.printStackTrace();
 		} finally {
 			try {
@@ -139,14 +123,12 @@ public class ClientHandler {
 
 	public void deliver(MensajeAsincrono message) {
 		if (objectSocketAsync == null) {
-			System.out.println("No hay clientes asincronos");
 			return;
 		}
 		try {
 			objectSocketAsync.out.writeInt(Protocol.DELIVER);	// DELIVER CODE
 			objectSocketAsync.out.writeObject(message);
 			objectSocketAsync.out.flush();
-			System.out.println("Mensaje enviado");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
