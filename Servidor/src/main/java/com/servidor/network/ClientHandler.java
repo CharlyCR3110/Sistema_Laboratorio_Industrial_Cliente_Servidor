@@ -21,7 +21,7 @@ public class ClientHandler {
 	private final CommandManager commandManager;
 	public ObjectSocket objectSocketSync;
 	public ObjectSocket objectSocketAsync;
-
+	boolean continuar = true;
 	public ClientHandler(Server server, ObjectSocket objectSocketSync) {
 		this.server = server;
 		this.objectSocketSync = objectSocketSync;
@@ -30,7 +30,21 @@ public class ClientHandler {
 
 	public void start() {
 		try {
-			while (true) {
+			System.out.println("Worker atendiendo peticiones...");
+			Thread t = new Thread(new Runnable(){
+				public void run(){
+					listen();
+				}
+			});
+			continuar = true;
+			t.start();
+		} catch (Exception ex) {
+		}
+	}
+
+	public void listen() {
+		try {
+			while (continuar) {
 				System.out.println("Clientes conectados: " + server.listaWorkersSize());    // DEBUG
 				// Leer el comando y el objeto
 				String commandName = (String) objectSocketSync.in.readObject();
