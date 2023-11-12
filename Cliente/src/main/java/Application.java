@@ -136,7 +136,6 @@ public class Application {
 			public void windowClosing(WindowEvent e) {
 				try {
 					clienteServidorHandler.enviarComandoAlServidor(Protocol.CLOSE, null);
-					System.out.println("Cerrando conexión con el servidor");
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				} finally {

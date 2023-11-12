@@ -96,11 +96,14 @@ public class ClienteServidorHandler implements IListener {
 
 	// Agrega un método para cerrar la conexión al cerrar la aplicación
 	public void cerrarConexion() {
+		// realmente da igual lo que se envie, porque cuando se cierra la aplicacion (con la X) se produce una EOFException del lado del servidor
+		// y se cierra la conexión
 		try {
 			// limpiar el buffer de salida
 			objectSocketSync.out.reset();
-			// enviar 
-			objectSocketSync.out.writeObject("close");
+			// enviar
+			objectSocketSync.out.writeInt(Protocol.DISCONNECT);
+			objectSocketSync.out.writeObject(Protocol.CLOSE);
 			objectSocketSync.out.flush();
 			objectSocketSync.socket.close();
 		} catch (Exception e) {
