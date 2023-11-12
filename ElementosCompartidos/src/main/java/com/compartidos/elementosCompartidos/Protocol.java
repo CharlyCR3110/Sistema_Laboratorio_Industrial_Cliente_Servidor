@@ -37,4 +37,7 @@ public class Protocol {
 	// Medicion
 	public static final String MODIFICAR_MEDICION = "MODIFICAR_MEDICION";
 
+	// Close
+	public static final String CLOSE = "CLOSE";
+
 }
