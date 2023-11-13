@@ -9,6 +9,7 @@ import com.servidor.utils.MensajeCreator;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.net.SocketException;
 
 public class ClientHandler {
 	private Server server;
@@ -101,9 +102,9 @@ public class ClientHandler {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
 			// eliminar el cliente de la lista de clientes
 			server.remove(this);
+		} catch (SocketException e) {
+			server.remove(this);	// esto pasa cuando el cliente se desconecta sin utilizar el comando desconectar (cerrando la ventana)
 		} catch (IOException | ClassNotFoundException | RuntimeException e) {
-			System.out.println("Error en ClientHandler.listen: " + e.getMessage());
-			// reiniciar el cliente
 			server.remove(this);
 		} finally {
 			try {
