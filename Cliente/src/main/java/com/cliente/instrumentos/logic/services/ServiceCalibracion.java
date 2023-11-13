@@ -26,7 +26,6 @@ public class ServiceCalibracion {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.guardar: " + e.getMessage());
 		}
 	}
@@ -37,7 +36,6 @@ public class ServiceCalibracion {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.eliminar: " + e.getMessage());
 		}
 	}
@@ -48,7 +46,6 @@ public class ServiceCalibracion {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.modificar: " + e.getMessage());
 		}
 	}
@@ -59,7 +56,6 @@ public class ServiceCalibracion {
 			returnObject = clienteServidorHandler.enviarComandoAlServidor(Protocol.LISTAR_CALIBRACION, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceCalibracions.listar: " + e.getMessage());
 		}
 
@@ -80,7 +76,6 @@ public class ServiceCalibracion {
 			return (Calibracion) clienteServidorHandler.enviarComandoAlServidor(Protocol.OBTENER_CALIBRACION, calibracion);
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.obtener: " + e.getMessage());
 		}
 	}

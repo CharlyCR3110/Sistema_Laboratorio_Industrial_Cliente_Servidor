@@ -20,7 +20,6 @@ public class ServiceMedicion {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.modificar: " + e.getMessage());
 		}
 	}

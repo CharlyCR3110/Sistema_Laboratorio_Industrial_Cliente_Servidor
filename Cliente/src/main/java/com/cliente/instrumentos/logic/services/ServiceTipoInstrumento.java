@@ -26,7 +26,6 @@ public class ServiceTipoInstrumento {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceTipoInstrumentos.guardarTipoInstrumento: " + e.getMessage());
 		}
 	}
@@ -37,7 +36,6 @@ public class ServiceTipoInstrumento {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceTipoInstrumentos.eliminarTipoInstrumento: " + e.getMessage());
 		}
 	}
@@ -48,7 +46,6 @@ public class ServiceTipoInstrumento {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceTipoInstrumentos.modificarTipoInstrumento: " + e.getMessage());
 		}
 	}
@@ -59,7 +56,6 @@ public class ServiceTipoInstrumento {
 			returnObject = clienteServidorHandler.enviarComandoAlServidor(Protocol.LISTAR_TIPO_INSTRUMENTO, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceTipoInstrumentos.listar: " + e.getMessage());
 		}
 
@@ -80,7 +76,6 @@ public class ServiceTipoInstrumento {
 			return (TipoInstrumento) clienteServidorHandler.enviarComandoAlServidor(Protocol.OBTENER_TIPO_INSTRUMENTO, tipoInstrumento);
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceTipoInstrumentos.obtener: " + e.getMessage());
 		}
 	}

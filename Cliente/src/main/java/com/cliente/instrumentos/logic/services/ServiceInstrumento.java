@@ -26,7 +26,6 @@ public class ServiceInstrumento {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.guardarInstrumento: " + e.getMessage());
 		}
 	}
@@ -37,7 +36,6 @@ public class ServiceInstrumento {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.eliminarInstrumento: " + e.getMessage());
 		}
 	}
@@ -48,7 +46,6 @@ public class ServiceInstrumento {
 			return 1;
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.modificarInstrumento: " + e.getMessage());
 		}
 	}
@@ -59,7 +56,6 @@ public class ServiceInstrumento {
 			returnObject = clienteServidorHandler.enviarComandoAlServidor(Protocol.LISTAR_INSTRUMENTO, filter);
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.listar: " + e.getMessage());
 		}
 
@@ -80,7 +76,6 @@ public class ServiceInstrumento {
 			return (Instrumento) clienteServidorHandler.enviarComandoAlServidor(Protocol.OBTENER_INSTRUMENTO, instrumento);
 		} catch (Exception e) {
 			// Manejar errores aquí
-			e.printStackTrace();
 			throw new RuntimeException("Error en ServiceInstrumentos.obtener: " + e.getMessage());
 		}
 	}
