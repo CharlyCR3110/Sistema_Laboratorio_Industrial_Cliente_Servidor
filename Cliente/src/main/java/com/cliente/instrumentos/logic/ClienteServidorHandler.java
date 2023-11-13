@@ -83,13 +83,23 @@ public class ClienteServidorHandler implements IListener {
 
 			enviarSolicitudAlServidor(commandName, datos);
 
-			int resultCode = (int) recibirRespuestaDelServidor();
+			int resultCode;
+			Object resultObject = recibirRespuestaDelServidor();
+
+			try {
+				resultCode = (int) resultObject;
+			} catch (Exception e) {
+				resultCode = -1;
+			}
+
 			if (resultCode != Protocol.ERROR_NO_ERROR) {
 				throw new RuntimeException("Error en ClienteServidorHandler.enviarComandoAlServidor: code: " + resultCode);
 			}
 
 			return recibirRespuestaDelServidor();
 		} catch (Exception e) {
+			// reiniciar la conexión
+			connect();
 			throw new RuntimeException(e);
 		}
 	}

@@ -101,8 +101,10 @@ public class ClientHandler {
 			System.out.println("Cliente desconectado. Momento exacto de finalización: " + System.currentTimeMillis() + "ms");// DEBUG
 			// eliminar el cliente de la lista de clientes
 			server.remove(this);
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (IOException | ClassNotFoundException | RuntimeException e) {
+			System.out.println("Error en ClientHandler.listen: " + e.getMessage());
+			// reiniciar el cliente
+			server.remove(this);
 		} finally {
 			try {
 				// No se puede cerrar el socket porque se cierra la conexión con el cliente
