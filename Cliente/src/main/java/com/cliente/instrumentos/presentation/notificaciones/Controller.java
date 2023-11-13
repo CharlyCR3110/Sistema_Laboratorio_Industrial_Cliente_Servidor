@@ -61,6 +61,12 @@ public class Controller implements ITarget {
 		recargarListas();
 	}
 
+	private void recargarListas() {
+		tiposController.refresh();
+		instrumentosController.refresh();
+		calibracionesController.refresh();
+	}
+
 	public View getView() {
 		return view;
 	}
