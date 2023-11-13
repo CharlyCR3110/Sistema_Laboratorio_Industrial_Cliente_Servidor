@@ -73,7 +73,10 @@ public class Application {
 
 		notificacionesController = new Controller(
 				new com.cliente.instrumentos.presentation.notificaciones.View(),
-				new com.cliente.instrumentos.presentation.notificaciones.Model()
+				new com.cliente.instrumentos.presentation.notificaciones.Model(),
+				tiposController,
+				instrumentosController,
+				calibracionesController
 		);
 
 		mediator = new Mediator(instrumentosController, calibracionesController);
