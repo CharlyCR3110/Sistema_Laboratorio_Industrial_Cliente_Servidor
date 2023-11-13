@@ -26,7 +26,6 @@ public class Controller implements ITarget {
 
 		ClienteServidorHandler.instanceListener().addTarget(this);
 		ClienteServidorHandler.instanceListener().start();
-		System.out.println("Not: ClienteServidorHandler.instanceListener().start();");
 	}
 
 	public Controller(View view, Model model, com.cliente.instrumentos.presentation.tipos.Controller tiposController, com.cliente.instrumentos.presentation.instrumentos.Controller instrumentosController, com.cliente.instrumentos.presentation.calibraciones.Controller calibracionesController) {
@@ -42,7 +41,6 @@ public class Controller implements ITarget {
 
 		ClienteServidorHandler.instanceListener().addTarget(this);
 		ClienteServidorHandler.instanceListener().start();
-		System.out.println("Not: ClienteServidorHandler.instanceListener().start();");
 	}
 
 	public void clear() {
